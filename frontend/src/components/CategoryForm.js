@@ -4,6 +4,7 @@ import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
 import { useDispatch, useSelector } from "react-redux";
 import { createCategory } from "../actions/categoryAction";
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -99,6 +100,17 @@ const CategoryForm = ({ location, history }) => {
     <div className={classes.root}>
       <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+        <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{marginTop:"1rem",marginBottom:"1rem"}}
+          // onClick={() => createCategoryHandler()}
+          startIcon={<ArrowBackIosIcon />}
+          >
+          BACK
+          </Button>
+          </Grid>
           <Grid item xs={12}>
             <TextField  
               placeholder="Name"

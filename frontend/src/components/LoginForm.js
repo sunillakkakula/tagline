@@ -110,7 +110,7 @@ const Form = ({ location, history }) => {
       <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
+            <TextField  
               placeholder="User Name"
               label="User Name*"
               variant="outlined"

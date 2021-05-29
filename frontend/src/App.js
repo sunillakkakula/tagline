@@ -75,12 +75,12 @@ function App() {
               exact
             />
             <Route
-              path="/admin/subcategories"
+              path="/admin/subcategory"
               component={SubCategoryListScreen}
               exact
             />
             <Route
-              path="/admin/subcategories/new"
+              path="/admin/subcategory/new"
               component={SubCategoryCreateScreen}
               exact
             />

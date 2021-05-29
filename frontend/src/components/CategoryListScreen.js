@@ -20,7 +20,6 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
-import { SettingsInputAntennaTwoTone } from "@material-ui/icons";
 import { CATEGORY_UPDATE_RESET } from "../constants/categoryConstants";
 const styles = {
   cardCategoryWhite: {
@@ -137,11 +136,6 @@ const CategoryListScreen = ({ history, match }) => {
       <Table striped bordered hover responsive className="table-sm">
         <thead>
           <tr>
-            {/* <th>
-              <Typography className={classes.cardTitleGreen} align="center">
-                ID
-              </Typography>
-            </th> */}
             <th>
               <Typography className={classes.cardTitleGreen} align="center">
                 Name

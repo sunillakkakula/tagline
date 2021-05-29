@@ -6,12 +6,12 @@ import GridContainer from "./Grid/GridContainer.js";
 import Card from "./Card/Card.js";
 import CardHeader from "./Card/CardHeader.js";
 import CardBody from "./Card/CardBody.js";
-import ConfirmDialog from "./ConfirmDialog";
 import DialogContent from "@material-ui/core/DialogContent";
-
-import { Table, Row, Col, Spinner } from "react-bootstrap";
+import { Table, Spinner } from "react-bootstrap";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import InputLabel from '@material-ui/core/InputLabel';
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import {
   Typography,
   Grid,
@@ -22,8 +22,6 @@ import {
   Dialog,
 } from "@material-ui/core";
 import Message from "../components/Message";
-
-import { Paper, IconButton } from "@material-ui/core";
 import { listCategories } from "../actions/categoryAction";
 import {
   listSubCategoriesByCategoryId,
@@ -91,7 +89,6 @@ const SubCategoryListScreen = ({ history, match }) => {
     dispatch(listSubCategoriesByCategoryId(categorySelected));
   }, [dispatch, categorySelected]);
 
-  //after reducer returns success and state is updated we are selecting only the subcategories for selected category
   const subCategoriesByCategory = useSelector(
     (state) => state.subCategoryListByCategory
   );
@@ -103,9 +100,6 @@ const SubCategoryListScreen = ({ history, match }) => {
   }
 
   const { subcategories } = subCategoriesByCategory;
-  // console.log(subcategories);
-
-  //to display 2 categories for selecting sub categories
   let renderCategoriesOptions = "";
   if (cats && cats.length > 0) {
     renderCategoriesOptions = cats.map((eachCategory, idx) => {
@@ -122,12 +116,10 @@ const SubCategoryListScreen = ({ history, match }) => {
     setCategorySelected(() => e.target.value);
   };
 
-  //what does this do ??
   const createHandler = (category) => {
     history.push("/admin/subcategories/new");
   };
 
-  // handle Edit
   const handleEdit = (subcatg) => {
     setOpen(true);
     console.log("ID SELECTED : " + subcatg._id);
@@ -171,18 +163,12 @@ const SubCategoryListScreen = ({ history, match }) => {
       setOpen(false);
     }
   };
-  // table showing ID, Name and desc of subcategories
   let renderContent = "";
   if (subcategories) {
     renderContent = (
       <Table striped bordered hover responsive className="table-sm">
         <thead>
           <tr>
-            <th>
-              <Typography className={classes.cardTitleGreen} align="center">
-                ID
-              </Typography>
-            </th>
             <th>
               <Typography className={classes.cardTitleGreen} align="center">
                 Name
@@ -204,10 +190,8 @@ const SubCategoryListScreen = ({ history, match }) => {
         <tbody>
           {subcategories.map((eachsubcat) => (
             <tr key={eachsubcat._id}>
-              <td>{eachsubcat._id}</td>
               <td>{eachsubcat.name}</td>
               <td>{eachsubcat.description}</td>
-              {/* second: add edit and delete icon */}
               <td>
                 <EditRoundedIcon
                   style={{ color: "green" }}
@@ -226,63 +210,38 @@ const SubCategoryListScreen = ({ history, match }) => {
   }
   return (
     <Fragment>
-      {loading && <Spinner />}
+      {/* {loading && <Spinner />}
       {error && <Message variant="danger">{error}</Message>}
       {loading ? (
         <Spinner />
       ) : error ? (
         <Message variant="danger">{error}</Message>
-      ) : (
-        <GridContainer>
-          {/* this grid item for create sub category button */}
-          <GridItem xs={12} sm={12} md={12}>
+      ) : ( */}
+        <Grid container spacing={2}>
+          <Grid item xs={12} >
             <Button
-              style={{
-                marginLeft: "0.75rem",
-                marginTop: "1rem",
-                marginBottom: "1rem",
-                align: "center",
-                width: "9rem",
-              }}
-              size="small"
-              variant="contained"
-              type="submit"
-              color="primary"
-              onClick={createHandler}
-            >
-              CREATE SUBCATEGORY
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          style={{marginTop:"1rem",marginBottom:"1rem"}}
+          onClick={() => createHandler()}
+          startIcon={<AddCircleOutlineRoundedIcon />}
+          >
+          Sub Category
             </Button>
-          </GridItem>
-          {/* This is for category bael and selct from categories list dropdown */}
-          <GridItem xs={12} sm={12} md={12}>
-            <GridContainer>
-              <Grid item xs={3}>
-                <Typography
-                  variant="body1"
-                  style={{
-                    alignItems: "right",
-                    justify: "right",
-                    marginLeft: "5rem",
-                  }}
-                >
-                  Category{" "}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
+          </Grid>
+          <Grid item xs={12}  style={{display: "flex", justifyContent: "center"}}>  
                 <Select
+                  labelId="category-controlled-open-select-label"
+                  placeholder="Category"
                   value={categorySelected}
                   onChange={handleChangeCategory}
-                  placeholder="Category"
-                  style={{ width: "10rem" }}
+                  alignItems="center"
+                  style={{ width: "40%" }}
                 >
-                  {/* {renderCategories} */}
                   {renderCategoriesOptions}
                 </Select>
-              </Grid>
-              <Grid item xs={3}></Grid>
-            </GridContainer>
-          </GridItem>
-          {/* this is dialog box for update a selected Category<Dialog open={open} onClose={() => setOpen(false)}> */}
+           </Grid> 
           <Dialog open={open}>
             <DialogContent>
               <GridContainer>
@@ -384,19 +343,17 @@ const SubCategoryListScreen = ({ history, match }) => {
               </GridContainer>
             </DialogContent>
           </Dialog>
-          {/* This is for Sub categories  list got in the render contensts in Table */}
-          <GridItem xs={12} sm={12} md={12}>
+          <Grid item xs={12} >
             <Card>
               <CardHeader color="primary">
                 <h4 className={classes.cardTitleWhite}>Sub Categories </h4>
               </CardHeader>
               <CardBody>{renderContent ? renderContent : ""}</CardBody>
             </Card>
-          </GridItem>
-        </GridContainer>
-      )}
+          </Grid>
+        </Grid>
     </Fragment>
-  );
-};
+  )
+}
 
 export default SubCategoryListScreen;

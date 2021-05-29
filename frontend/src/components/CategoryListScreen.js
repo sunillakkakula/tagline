@@ -225,13 +225,6 @@ const CategoryListScreen = ({ history, match }) => {
                   <form onSubmit={submitHandler}>
                     <Grid container spacing={2}>
                       <Grid item xs={12}>
-                        <Grid
-                          container
-                          spacing={1}
-                          alignItems="center"
-                          justify="center"
-                        >
-                          <Grid item xs={6}>
                             <TextField
                               className={classes.inputText}
                               placeholder="Name"
@@ -246,16 +239,9 @@ const CategoryListScreen = ({ history, match }) => {
                                 classes: { input: classes.input },
                               }}
                             />
-                          </Grid>
-
-                          <Grid
-                            container
-                            spacing={1}
-                            alignItems="center"
-                            justify="center"
-                          >
-                            <Grid item xs={6}>
-                              <TextField
+                            </Grid>
+                            <Grid item xs={12}>
+                            <TextField
                                 className={classes.inputText}
                                 placeholder="Description"
                                 variant="outlined"
@@ -271,28 +257,17 @@ const CategoryListScreen = ({ history, match }) => {
                                 }}
                               />
                             </Grid>
-                          </Grid>
-                          <Grid
-                            container
-                            spacing={1}
-                            alignItems="center"
-                            justify="center"
-                          >
-                            <Grid item xs={5} justify="center"></Grid>
-                            <Grid item xs={2} justify="center">
+                            <Grid item xs={12}>
                               <Button
                                 size="small"
                                 variant="contained"
                                 type="submit"
                                 color="primary"
+                                fullWidth
                               >
-                                Update
+                                UPDATE
                               </Button>
                             </Grid>
-                            <Grid item xs={5} justify="center"></Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
                     </Grid>
                   </form>
                 </CardBody>

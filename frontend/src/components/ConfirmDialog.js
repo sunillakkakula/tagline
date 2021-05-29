@@ -16,18 +16,12 @@ const ConfirmDialog = (props) => {
       <DialogTitle id="confirm-dialog">{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
-      <Grid container spacing={2}>
-                      <Grid item xs={12}>
-                        <Grid
-                          container
-                          spacing={1}
-                          alignItems="center"
-                          justify="center"
-                        >
-                          <Grid item xs={6}  alignItems="center"
-                          justify="center"><Button variant="contained" onClick={() => setOpen(false)} color="primary" >No</Button></Grid>
-                          <Grid item xs={6} ><Button  variant="contained" onClick={() => {setOpen(false); onConfirm();}} style={{ backgroundColor: "red",color:"white" }}>Yes</Button></Grid>
+      <Grid container spacing={2}  justify="space-between">
+                      <Grid item >
+                        <Button variant="contained" onClick={() => setOpen(false)} color="primary" >No</Button>
                         </Grid>
+                        <Grid item>
+                        <Button  variant="contained" onClick={() => {setOpen(false); onConfirm();}} style={{ backgroundColor: "red",color:"white" }}>Yes</Button>
                         </Grid>
         </Grid>
        

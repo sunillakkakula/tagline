@@ -79,7 +79,7 @@ export const register = (
   name,
   userName,
   password,
-  emailId,
+  email,
   contactNo,
   role
 ) => async (dispatch) => {
@@ -96,7 +96,7 @@ export const register = (
 
     const { data } = await axios.post(
       "/api/user",
-      { name, userName, password, emailId, contactNo, role },
+      { name, userName, password, email, contactNo, role },
       config
     );
 

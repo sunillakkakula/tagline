@@ -19,6 +19,7 @@ import PlaceOrderScreen from "./components/PlaceOrderScreen";
 import OrderScreen from "./components/OrderScreen";
 import UserListScreen from "./components/UserListScreen";
 import Signin from "./components/Signin";
+import Signup from "./components/Signup";
 import UserEditScreen from "./components/UserEditScreen";
 import ProductListScreen from "./components/ProductListScreen";
 import ProductEditScreen from "./components/ProductEditScreen";
@@ -56,6 +57,7 @@ function App() {
             <Route path="/login" component={LoginScreen} />
             <Route path="/signin" component={Signin} />
             <Route path="/signup" component={SignUpScreen} />
+            <Route path="/signup1" component={Signup} />
             <Route path="/profile" component={ProfileScreen} />
             <Route path="/product/:productId" component={ProductScreen} exact />
             <Route path="/cart/:id?" component={CartLayoutScreen} />

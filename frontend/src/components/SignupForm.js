@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
-import { LearnMoreLink } from './atoms';
+
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/userAction";
+import { register } from "../actions/userAction";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,6 +13,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const schema = {
+  name: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 300,
+    },
+  },
   userName: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
@@ -25,16 +31,27 @@ const schema = {
       minimum: 5,
     },
   },
+  email: {
+    presence: { allowEmpty: false, message: 'is required' },
+    email: true,
+    length: {
+      maximum: 300,
+    },
+  },
+  contactNo: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 10,
+    },
+  },
+
 };
 
-const Form = ({ location, history }) => {
+const SignUpForm = ({ location, history }) => {
   const classes = useStyles();
-
   const dispatch = useDispatch();
-
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
-
   const [formState, setFormState] = React.useState({
     isValid: false,
     values: {},
@@ -42,9 +59,16 @@ const Form = ({ location, history }) => {
     errors: {},
   });
 
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push(redirect);
+    }
+  }, [history, userInfo, redirect]);
+
   React.useEffect(() => {
     const errors = validate(formState.values, schema);
-
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
@@ -54,7 +78,6 @@ const Form = ({ location, history }) => {
 
   const handleChange = event => {
     event.persist();
-
     setFormState(formState => ({
       ...formState,
       values: {
@@ -71,24 +94,13 @@ const Form = ({ location, history }) => {
     }));
   };
 
-  const redirect = location.search ? location.search.split("=")[1] : "/";
-
-  useEffect(() => {
-    if (userInfo) 
-      history.push(redirect);
-    else
-    history.push("/signin");
-  }, [history, userInfo, redirect]);
-
   const handleSubmit = event => {
+    console.log("Values Submitted are : ", formState.values)
     event.preventDefault();
+    if (formState.isValid) 
+      dispatch(register(formState.values.name, formState.values.userName, formState.values.password, formState.values.email, formState.values.contactNo, 0));
 
-    if (formState.isValid) {
-      console.log(formState.values)
-      dispatch(login(formState.values.userName , formState.values.password));
-    }
-
-    setFormState(formState => ({
+      setFormState(formState => ({
       ...formState,
       touched: {
         ...formState.touched,
@@ -96,11 +108,7 @@ const Form = ({ location, history }) => {
       },
     }));
   };
-  const handleSignUp = (e) => {
-    console.log("Clicked Sign Up");
-    e.preventDefault();
-    history.push("/signup");
-  };
+ 
 
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
@@ -109,6 +117,21 @@ const Form = ({ location, history }) => {
     <div className={classes.root}>
       <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+        <Grid item xs={12}>
+            <TextField
+              placeholder="Name"
+              label="Name*"
+              variant="outlined"
+              size="medium"
+              name="name"
+              fullWidth
+              helperText={hasError('name') ? formState.errors.name[0] : null}
+              error={hasError('name')}
+              onChange={handleChange}
+              type="text"
+              value={formState.values.name || ''}
+            />
+          </Grid>
           <Grid item xs={12}>
             <TextField
               placeholder="User Name"
@@ -122,6 +145,22 @@ const Form = ({ location, history }) => {
               onChange={handleChange}
               type="text"
               value={formState.values.userName || ''}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              placeholder="E-mail"
+              label="E-mail *"
+              variant="outlined"
+              size="medium"
+              name="email"
+              fullWidth
+              helperText={hasError('email') ? formState.errors.email[0] : null}
+              error={hasError('email')}
+              onChange={handleChange}
+              type="email"
+              value={formState.values.email || ''}
             />
           </Grid>
           <Grid item xs={12}>
@@ -141,23 +180,21 @@ const Form = ({ location, history }) => {
               value={formState.values.password || ''}
             />
           </Grid>
+          
           <Grid item xs={12}>
-            <i>
-              <Typography variant="subtitle2">
-                Fields that are marked with * sign are required.
-              </Typography>
-            </i>
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              size="large"
-              variant="contained"
-              type="submit"
-              color="primary"
+            <TextField
+              placeholder=""
+              label="Contact No*"
+              variant="outlined"
+              size="medium"
+              name="contactNo"
               fullWidth
-            >
-              SIGN IN
-            </Button>
+              helperText={hasError('contactNo') ? formState.errors.contactNo[0] : null}
+              error={hasError('contactNo')}
+              onChange={handleChange}
+              type="number"
+              value={formState.values.contactNo || ''}
+            />
           </Grid>
           <Grid item xs={12}>
             <Typography
@@ -171,33 +208,16 @@ const Form = ({ location, history }) => {
               type="submit"
               color="primary"
               fullWidth
-              onClick={handleSignUp}
             >
-              SIGN UP
+              REGISTER
             </Button>
-              {/* <LearnMoreLink
-                title="Sign Up"
-                href="/sign-up"
-              /> */}
             </Typography>
           </Grid>
-          {/* <Grid item xs={12}>
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              align="center"
-            >
-              Forgot your password?{' '}
-              <LearnMoreLink
-                title="Reset password"
-                href="/password-reset-simple"
-              />
-            </Typography>
-          </Grid> */}
+        
         </Grid>
       </form>
     </div>
   );
 };
 
-export default Form;
+export default SignUpForm;

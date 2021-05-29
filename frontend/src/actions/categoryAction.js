@@ -82,7 +82,7 @@ export const deleteCategory = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createCategory = ({ name, description }) => async (
+export const createCategory = ( name, description ) => async (
   dispatch,
   getState
 ) => {

@@ -1,22 +1,15 @@
 import React, { useEffect, Fragment ,useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import Message from "./Message";
-import Spinner from "./controls/Spinner";
-import { Link } from "@material-ui/core";
 import GridItem from "./Grid/GridItem.js";
 import GridContainer from "./Grid/GridContainer.js";
-// import Table from "../components/Table/Table.js";
 import Card from "./Card/Card.js";
 import CardHeader from "./Card/CardHeader.js";
 import CardBody from "./Card/CardBody.js";
-import { Table, Row, Col } from "react-bootstrap";
-import Paginate from "./Paginate";
+import { Table } from "react-bootstrap";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import { listOrders } from "../actions/orderAction";
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import Dialog from '@material-ui/core/Dialog'
 import ConfirmDialog from './ConfirmDialog'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -26,8 +19,6 @@ import {
   Grid,
   Button,
   TextField,
-  Paper,
-  IconButton,
 } from "@material-ui/core";
 import { SettingsInputAntennaTwoTone } from "@material-ui/icons";
 import { CATEGORY_UPDATE_RESET } from "../constants/categoryConstants";
@@ -146,11 +137,11 @@ const CategoryListScreen = ({ history, match }) => {
       <Table striped bordered hover responsive className="table-sm">
         <thead>
           <tr>
-            <th>
+            {/* <th>
               <Typography className={classes.cardTitleGreen} align="center">
                 ID
               </Typography>
-            </th>
+            </th> */}
             <th>
               <Typography className={classes.cardTitleGreen} align="center">
                 Name
@@ -162,7 +153,7 @@ const CategoryListScreen = ({ history, match }) => {
               </Typography>
             </th>
             <th>
-              <Typography className={classes.cardTitleGreen} align="center">
+              <Typography className={classes.cardTitleGreen} align="center" alignItems="center">
                 Action
               </Typography>
             </th>
@@ -171,7 +162,7 @@ const CategoryListScreen = ({ history, match }) => {
         <tbody>
           {catgs.map((ec) => (
             <tr key={ec._id}>
-              <td>{ec._id}</td>
+              {/* <td>{ec._id}</td> */}
               <td>{ec.name}</td>
               <td>{ec.description}</td>
               <td>
@@ -195,21 +186,16 @@ const CategoryListScreen = ({ history, match }) => {
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Button
-            style={{
-              marginLeft: "0.75rem",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              align: "center",
-              width: "9rem",
-            }}
-            size="small"
-            variant="contained"
-            type="submit"
-            color="primary"
-            onClick={createCategoryHandler}
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          style={{marginTop:"1rem",marginBottom:"1rem"}}
+          onClick={() => createCategoryHandler()}
+          startIcon={<AddCircleOutlineRoundedIcon />}
           >
-            New Category
+          Category
           </Button>
+         
         </GridItem>
         <GridItem xs={12} sm={12} md={12}>
           <Card>

@@ -30,7 +30,7 @@ import MuiHeader from "./components/MuiHeader";
 // import CategoriesSubMenuVer2 from "./components/CategoriesSubMenuVer2";
 import Dashboard from "./components/Dashboard";
 import ProductSettingsScreen from "./components/ProductSettingsScreen";
-import CategoryCreateScreen from "./components/CatagoryCreateScreen";
+import CategoryCreate from "./components/CategoryCreate";
 import SubCategoryCreateScreen from "./components/SubCatagoryCreateScreen";
 import CategoryListScreen from "./components/CategoryListScreen";
 import SubCategoryListScreen from "./components/SubCategoryListScreen";
@@ -65,13 +65,13 @@ function App() {
             {/* <Route path="/" component={CartLayoutScreen} /> */}
             <Route path="/admin/users" component={UserListScreen} exact />
             <Route
-              path="/admin/categories"
+              path="/admin/category"
               component={CategoryListScreen}
               exact
             />
             <Route
-              path="/admin/categories/new"
-              component={CategoryCreateScreen}
+              path="/admin/category/new"
+              component={CategoryCreate}
               exact
             />
             <Route

@@ -18,7 +18,7 @@ import PaymentScreen from "./components/PaymentScreen";
 import PlaceOrderScreen from "./components/PlaceOrderScreen";
 import OrderScreen from "./components/OrderScreen";
 import UserListScreen from "./components/UserListScreen";
-import SigninSimple from "./components/SigninSimple";
+import Signin from "./components/Signin";
 import UserEditScreen from "./components/UserEditScreen";
 import ProductListScreen from "./components/ProductListScreen";
 import ProductEditScreen from "./components/ProductEditScreen";
@@ -54,7 +54,7 @@ function App() {
             <Route path="/payment" component={PaymentScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />
             <Route path="/login" component={LoginScreen} />
-            <Route path="/signin-simple" component={SigninSimple} />
+            <Route path="/signin" component={Signin} />
             <Route path="/signup" component={SignUpScreen} />
             <Route path="/profile" component={ProfileScreen} />
             <Route path="/product/:productId" component={ProductScreen} exact />

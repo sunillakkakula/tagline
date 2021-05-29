@@ -98,7 +98,7 @@ const MuiHeader = () => {
     );
   }, [userInfo, loginLogoutBtnTitle, loginLogoutBtnUrl]);
 
-  const roleOfuserInfoExist = userInfo && userInfo[0].role ? true : false;
+  const roleOfuserInfoExist = userInfo && userInfo[0] && userInfo[0].role ? true : false;
 
   const handleChange = (event) => {
     console.log("event.target.value : " + event.target.value);

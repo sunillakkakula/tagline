@@ -13,9 +13,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const schema = {
-  email: {
+  userName: {
     presence: { allowEmpty: false, message: 'is required' },
-    email: true,
     length: {
       maximum: 300,
     },
@@ -23,7 +22,7 @@ const schema = {
   password: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      minimum: 8,
+      minimum: 5,
     },
   },
 };
@@ -31,8 +30,6 @@ const schema = {
 const Form = ({ location, history }) => {
   const classes = useStyles();
 
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -74,12 +71,23 @@ const Form = ({ location, history }) => {
     }));
   };
 
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  useEffect(() => {
+    if (userInfo) 
+      history.push(redirect);
+    else
+    history.push("/signin");
+  }, [history, userInfo, redirect]);
+
   const handleSubmit = event => {
     event.preventDefault();
 
     if (formState.isValid) {
       // window.location.replace('/');
-      dispatch(login(userName, password));
+      console.log(formState.values)
+    
+      dispatch(login(formState.values.userName , formState.values.password));
     }
 
     setFormState(formState => ({
@@ -89,6 +97,11 @@ const Form = ({ location, history }) => {
         ...formState.errors,
       },
     }));
+  };
+  const handleSignUp = (e) => {
+    console.log("Clicked Sign Up");
+    e.preventDefault();
+    history.push("/signup");
   };
 
   const hasError = field =>
@@ -100,17 +113,17 @@ const Form = ({ location, history }) => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              placeholder="E-mail"
-              label="E-mail *"
+              placeholder="User Name"
+              label="User Name*"
               variant="outlined"
               size="medium"
-              name="email"
+              name="userName"
               fullWidth
-              helperText={hasError('email') ? formState.errors.email[0] : null}
-              error={hasError('email')}
+              helperText={hasError('userName') ? formState.errors.userName[0] : null}
+              error={hasError('userName')}
               onChange={handleChange}
-              type="email"
-              value={formState.values.email || ''}
+              type="text"
+              value={formState.values.userName || ''}
             />
           </Grid>
           <Grid item xs={12}>
@@ -154,14 +167,23 @@ const Form = ({ location, history }) => {
               color="textSecondary"
               align="center"
             >
-          
-              <LearnMoreLink
+          <Button
+              size="large"
+              variant="contained"
+              type="submit"
+              color="primary"
+              fullWidth
+              onClick={handleSignUp}
+            >
+              SIGN UP
+            </Button>
+              {/* <LearnMoreLink
                 title="Sign Up"
                 href="/sign-up"
-              />
+              /> */}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Typography
               variant="subtitle1"
               color="textSecondary"
@@ -173,7 +195,7 @@ const Form = ({ location, history }) => {
                 href="/password-reset-simple"
               />
             </Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
       </form>
     </div>

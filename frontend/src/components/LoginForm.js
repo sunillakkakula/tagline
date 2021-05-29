@@ -175,25 +175,10 @@ const Form = ({ location, history }) => {
             >
               SIGN UP
             </Button>
-              {/* <LearnMoreLink
-                title="Sign Up"
-                href="/sign-up"
-              /> */}
+            
             </Typography>
           </Grid>
-          {/* <Grid item xs={12}>
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              align="center"
-            >
-              Forgot your password?{' '}
-              <LearnMoreLink
-                title="Reset password"
-                href="/password-reset-simple"
-              />
-            </Typography>
-          </Grid> */}
+         
         </Grid>
       </form>
     </div>

@@ -78,8 +78,8 @@ const SubCategoryForm = ({ location, history }) => {
   }
 
   if (success) {
-    console.log("Success Response to redirecting to Category List");
-    history.push("/admin/category");
+    console.log("Success Response to redirecting to Sub Category List");
+    history.push("/admin/subcategory");
   }
 
   const handleChangeCategory = (e) => {

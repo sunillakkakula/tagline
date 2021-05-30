@@ -7,6 +7,7 @@ import Card from "./Card/Card.js";
 import CardHeader from "./Card/CardHeader.js";
 import CardBody from "./Card/CardBody.js";
 import DialogContent from "@material-ui/core/DialogContent";
+import ConfirmDialog from './ConfirmDialog'
 import { Table, Spinner } from "react-bootstrap";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -210,13 +211,6 @@ const SubCategoryListScreen = ({ history, match }) => {
   }
   return (
     <Fragment>
-      {/* {loading && <Spinner />}
-      {error && <Message variant="danger">{error}</Message>}
-      {loading ? (
-        <Spinner />
-      ) : error ? (
-        <Message variant="danger">{error}</Message>
-      ) : ( */}
         <Grid container spacing={2}>
           <Grid item xs={12} >
             <Button
@@ -242,25 +236,26 @@ const SubCategoryListScreen = ({ history, match }) => {
                   {renderCategoriesOptions}
                 </Select>
            </Grid> 
+  <ConfirmDialog
+    title="Delete Category ?"
+    open={confirmOpen}
+    setOpen={setConfirmOpen}
+    onConfirm={()=>console.log("...DELETING")}
+  >
+    Are you sure you want to delete ?
+  </ConfirmDialog>
           <Dialog open={open}>
             <DialogContent>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <Card>
                     <CardHeader color="primary">
-                      <h4 className={classes.cardTitleWhite}>Edit Category </h4>
+                      <h4 className={classes.cardTitleWhite}>Edit Sub Category </h4>
                     </CardHeader>
                     <CardBody>
                       <form onSubmit={submitHandler}>
                         <Grid container spacing={2}>
                           <Grid item xs={12}>
-                            <Grid
-                              container
-                              spacing={1}
-                              alignItems="center"
-                              justify="center"
-                            >
-                              <Grid item xs={6}>
                                 <TextField
                                   className={classes.inputText}
                                   placeholder="Name"
@@ -281,15 +276,8 @@ const SubCategoryListScreen = ({ history, match }) => {
                                     classes: { input: classes.input },
                                   }}
                                 />
-                              </Grid>
-
-                              <Grid
-                                container
-                                spacing={1}
-                                alignItems="center"
-                                justify="center"
-                              >
-                                <Grid item xs={6}>
+                            </Grid>
+                            <Grid item xs={12}>
                                   <TextField
                                     className={classes.inputText}
                                     placeholder="Description"
@@ -312,29 +300,18 @@ const SubCategoryListScreen = ({ history, match }) => {
                                       classes: { input: classes.input },
                                     }}
                                   />
-                                </Grid>
-                              </Grid>
-                              <Grid
-                                container
-                                spacing={1}
-                                alignItems="center"
-                                justify="center"
-                              >
-                                <Grid item xs={5} justify="center"></Grid>
-                                <Grid item xs={2} justify="center">
+                            </Grid>
+                            <Grid item xs={12} justify="center">
                                   <Button
                                     size="small"
                                     variant="contained"
                                     type="submit"
                                     color="primary"
+                                    fullWidth
                                   >
-                                    Update
+                                    UPDATE
                                   </Button>
-                                </Grid>
-                                <Grid item xs={5} justify="center"></Grid>
                               </Grid>
-                            </Grid>
-                          </Grid>
                         </Grid>
                       </form>
                     </CardBody>

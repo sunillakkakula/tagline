@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Grid } from '@material-ui/core';
+import { Divider, Grid } from '@material-ui/core';
 const ConfirmDialog = (props) => {
   const { title, children, open, setOpen, onConfirm } = props;
   return (
@@ -14,7 +14,9 @@ const ConfirmDialog = (props) => {
       aria-labelledby="confirm-dialog"
     >
       <DialogTitle id="confirm-dialog">{title}</DialogTitle>
+      <Divider/>
       <DialogContent>{children}</DialogContent>
+      <Divider/>
       <DialogActions>
       <Grid container spacing={2}  justify="space-between">
                       <Grid item >

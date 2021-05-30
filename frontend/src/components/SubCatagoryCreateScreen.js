@@ -183,18 +183,7 @@ const SubCatagoryCreateScreen = ({ history, match }) => {
                           alignItems="center"
                           justify="center"
                         >
-                          <Grid item xs={6}>
-                            <Typography
-                              variant="body1"
-                              style={{
-                                alignItems: "right",
-                                justify: "right",
-                                marginLeft: "5rem",
-                              }}
-                            >
-                              Category{" "}
-                            </Typography>
-                          </Grid>
+                         
                           <Grid item xs={6}>
                             <Select
                               value={selectedCategoryId}

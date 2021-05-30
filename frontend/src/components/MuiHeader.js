@@ -257,8 +257,8 @@ const MuiHeader = () => {
                     </MenuItem>
                     <MenuItem value="users">users</MenuItem>
                     <MenuItem value="products">products</MenuItem>
-                    <MenuItem value="categories">categories</MenuItem>
-                    <MenuItem value="subcategories">subcategories</MenuItem>
+                    <MenuItem value="category">categories</MenuItem>
+                    <MenuItem value="subcategory">subcategories</MenuItem>
                     <MenuItem value="orders">orders</MenuItem>
                   </Select>
                 </FormControl>

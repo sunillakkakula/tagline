@@ -1,9 +1,11 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import  CategoryForm from './CategoryForm';
-import SectionHeader  from './molecules/SectionHeader/SectionHeader';
 import  Section  from './organisms/Section/Section';
 
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+
+import { Button, Grid } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   formContainer: {
     height: '100%',
@@ -27,14 +29,21 @@ const CategoryCreate = ({ location, history }) => {
   
   return (
     <div>
+        <Grid container spacing={2}>
+        <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{marginTop:"1rem",marginBottom:"1rem"}}
+          // onClick={() => createCategoryHandler()}
+          startIcon={<ArrowBackIosIcon />}
+          >
+          BACK
+          </Button>
+          </Grid>
+          </Grid>
       <Section className={classes.section}>
         <div className={classes.formContainer}>
-          <SectionHeader
-            title="Category"
-            titleProps={{
-              variant: 'h3',
-            }}
-          />
            <CategoryForm location={location} history={history}/> 
         </div>
       </Section>

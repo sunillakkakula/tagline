@@ -5,9 +5,13 @@ import validate from 'validate.js';
 import { useDispatch, useSelector } from "react-redux";
 import { createCategory } from "../actions/categoryAction";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-
+import GridItem from "./Grid/GridItem.js";
+import GridContainer from "./Grid/GridContainer.js";
+import Card from "./Card/Card.js";
+import CardHeader from "./Card/CardHeader.js";
+import CardBody from "./Card/CardBody.js";
 const useStyles = makeStyles(theme => ({
-  root: {
+  root: { 
     width: '100%',
   },
 }));
@@ -98,19 +102,16 @@ const CategoryForm = ({ location, history }) => {
 
   return (
     <div className={classes.root}>
+      
+      <GridContainer spacing={2} alignItems="center" justify="center">
+          <GridItem xs={12} sm={12} md={12}>
+            <Card>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}> Category </h4>
+              </CardHeader>
+              <CardBody>
       <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-        <Grid item xs={12}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{marginTop:"1rem",marginBottom:"1rem"}}
-          // onClick={() => createCategoryHandler()}
-          startIcon={<ArrowBackIosIcon />}
-          >
-          BACK
-          </Button>
-          </Grid>
           <Grid item xs={12}>
             <TextField  
               placeholder="Name"
@@ -165,6 +166,10 @@ const CategoryForm = ({ location, history }) => {
          
         </Grid>
       </form>
+   </CardBody>
+   </Card>
+   </GridItem>
+   </GridContainer>
     </div>
   );
 };

@@ -117,7 +117,7 @@ const SubCategoryListScreen = ({ history, match }) => {
   };
 
   const createHandler = (category) => {
-    history.push("/admin/subcategories/new");
+    history.push("/admin/subcategory/new");
   };
 
   const handleEdit = (subcatg) => {

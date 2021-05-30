@@ -31,7 +31,7 @@ import MuiHeader from "./components/MuiHeader";
 import Dashboard from "./components/Dashboard";
 import ProductSettingsScreen from "./components/ProductSettingsScreen";
 import CategoryCreate from "./components/CategoryCreate";
-import SubCategoryCreateScreen from "./components/SubCatagoryCreateScreen";
+import SubCategoryCreate from "./components/SubCategoryCreate";
 import CategoryListScreen from "./components/CategoryListScreen";
 import SubCategoryListScreen from "./components/SubCategoryListScreen";
 import CategoryEditScreen from "./components/CategoryEditScreen";
@@ -79,11 +79,16 @@ function App() {
               component={SubCategoryListScreen}
               exact
             />
-            <Route
+             <Route
+              path="/admin/subcategory/new"
+              component={SubCategoryCreate}
+              exact
+            />
+            {/* <Route
               path="/admin/subcategory/new"
               component={SubCategoryCreateScreen}
               exact
-            />
+            /> */}
             <Route path="/admin/user/:id/edit" component={UserEditScreen} />
             <Route path="/admin/products" component={ProductListScreen} exact />
             <Route

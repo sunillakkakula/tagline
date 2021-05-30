@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 const CategoryCreate = ({ location, history }) => {
   const classes = useStyles();
   
-  
   return (
     <div>
         <Grid container spacing={2}>
@@ -35,10 +34,8 @@ const CategoryCreate = ({ location, history }) => {
           variant="contained"
           color="primary"
           style={{marginTop:"1rem",marginBottom:"1rem"}}
-          // onClick={() => createCategoryHandler()}
           startIcon={<ArrowBackIosIcon />}
           >
-          BACK
           </Button>
           </Grid>
           </Grid>

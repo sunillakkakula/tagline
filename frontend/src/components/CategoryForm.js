@@ -102,7 +102,19 @@ const CategoryForm = ({ location, history }) => {
 
   return (
     <div className={classes.root}>
-      
+       {/* <Grid container spacing={2}>
+        <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{marginTop:"1rem",marginBottom:"1rem"}}
+          // onClick={() => createCategoryHandler()}
+          startIcon={<ArrowBackIosIcon />}
+          >
+          BACK
+          </Button>
+          </Grid>
+          </Grid> */}
       <GridContainer spacing={2} alignItems="center" justify="center">
           <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -163,7 +175,6 @@ const CategoryForm = ({ location, history }) => {
             >
             </Typography>
           </Grid>
-         
         </Grid>
       </form>
    </CardBody>

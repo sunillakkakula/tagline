@@ -10,6 +10,7 @@ import Card from "./Card/Card.js";
 import CardHeader from "./Card/CardHeader.js";
 import CardBody from "./Card/CardBody.js";
 import { createProduct } from "../actions/productAction";
+import { listSubCategoriesByCategoryId } from "../actions/subCategoryAction";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,13 +40,18 @@ const schema = {
   countInStock: {
     presence: { allowEmpty: false, message: 'is required' },
   },
-  isTaxable: {
+  isTaxble: {
     presence: { allowEmpty: false, message: 'is required' },
   },
   taxPercent: {
     presence: { allowEmpty: false, message: 'is required' },
-  }
-  
+  },
+  imageUrl: {
+    presence: { allowEmpty: false, message: 'is required' },
+  },
+  isVttBestSeller: {
+    presence: { allowEmpty: false, message: 'is required' },
+  },
 
 };
 
@@ -72,15 +78,28 @@ const ProductCreateForm = ({ location, history }) => {
       errors: errors || {},
     }));
   }, [formState.values]);
+  
+  useEffect(() => {
+    dispatch(listCategories());
+  }, [dispatch]);
 
   const productCreate = useSelector((state) => state.productCreate);
   const { loading, error, product, success } = productCreate;
 
-  useEffect(() => {
-    dispatch(listCategories());
-  }, [dispatch]);
+  
   const categoryList = useSelector((state) => state.categoryList);
   const { categories } = categoryList;
+
+  useEffect(() => {
+    dispatch(listSubCategoriesByCategoryId(categorySelected));
+  }, [dispatch, categorySelected]);
+
+  const subCategoriesByCategory = useSelector(
+    (state) => state.subCategoryListByCategory
+  );
+  const { subcategories } = subCategoriesByCategory;
+  console.log(subcategories);
+  
   if (categories) console.log(categories);
   let cats = categories ? categories.categories : [];
 
@@ -96,71 +115,29 @@ const ProductCreateForm = ({ location, history }) => {
   }
 
   let renderSubCategoriesOptions = "";
-  if (categorySelected) {
-    let filteredCategory = [];
-    filteredCategory = cats.filter(function (eachCategory) {
+  if (subcategories && subcategories.length > 0) {
+    renderSubCategoriesOptions = subcategories.map((eachSubCategory, idx) => {
       return (
-        eachCategory._id === categorySelected &&
-        eachCategory.subCategories.length > 0
+        <MenuItem key={idx} value={eachSubCategory._id}>
+          {eachSubCategory.name}
+        </MenuItem>
       );
     });
-    if (
-      filteredCategory[0] &&
-      filteredCategory[0].subCategories &&
-      filteredCategory[0].subCategories.length
-    ) {
-      renderSubCategoriesOptions = filteredCategory[0].subCategories.map(
-        (eachSubCategory) => {
-          return (
-            <MenuItem key={eachSubCategory.id} value={eachSubCategory.id}>
-              {eachSubCategory.name}
-            </MenuItem>
-          );
-        }
-      );
-    }
   }
   if (success) {
     console.log("Success Response to redirecting to Products List");
     history.push("/admin/products");
   }
 
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-  //   console.log(
-  //     "name : " +
-  //       name +
-  //       " , description : " +
-  //       description +
-  //       " , brand : " +
-  //       brand +
-  //       " , countInStock : " +
-  //       countInStock +
-  //       " , isTaxble : " +
-  //       isTaxble +
-  //       " , taxPercent : " +
-  //       taxPercent
-  //   );
-  //   dispatch(
-  //     createProduct({
-  //       name,
-  //       brand,
-  //       categorySelected,
-  //       subCategorySelected,
-  //       description,
-  //       countInStock,
-  //       isTaxble,
-  //       taxPercent,
-  //     })
-  //   );
-  // };
-
-  const handleChangeCategory = (e) => {
+    const handleChangeCategory = (e) => {
+    console.log("Category Changed  " + e.target.value);
     setCategorySelected(() => e.target.value);
+    setSubCategorySelected(() => "");
   };
+
   const handleChangeSubCategory = (e) => {
-    console.log("Exc handleChangeSubCategory" + e.target.value);
-    setSubCategorySelected(e.target.value);
+    console.log("Sub Category Changed  " + e.target.value);
+    setSubCategorySelected(() => e.target.value);
   };
   const handleChange = event => {
     event.persist();
@@ -183,19 +160,21 @@ const ProductCreateForm = ({ location, history }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(formState.values,categorySelected,subCategorySelected)
+    console.log(formState.values,subCategorySelected)
     
     if (formState.isValid) {
-      console.log(formState.values,categorySelected,subCategorySelected)
+      console.log(formState.values,subCategorySelected)
       dispatch(
         createProduct(
-          formState.values,
+          formState.values.name,
           formState.values.brand,
           formState.values.description,
           formState.values.countInStock,
           formState.values.isTaxble,
           formState.values.taxPercent,
-          categorySelected,
+          formState.values.imageUrl,
+          formState.values.isVttBestSeller,
+          
           subCategorySelected
         )
       );
@@ -225,7 +204,7 @@ const ProductCreateForm = ({ location, history }) => {
             <CardBody>
               <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} >
+                <Grid item xs={6} style={{display:"flex" , justifyContent:"center"}}>
                     <Select
                       value={categorySelected}
                       onChange={handleChangeCategory}
@@ -235,15 +214,15 @@ const ProductCreateForm = ({ location, history }) => {
                       {renderCategoriesOptions}
                     </Select>
                   </Grid>
-                  <Grid item xs={12} >
-                    {/* <Select
+                  <Grid item xs={6} style={{display:"flex" , justifyContent:"center"}}>
+                    <Select
                       value={subCategorySelected}
                       onChange={handleChangeSubCategory}
                       placeholder="SubCategory"
                       style={{ width: "10rem" }}
                     >
                       {renderSubCategoriesOptions}
-                    </Select> */}
+                    </Select>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -338,6 +317,36 @@ const ProductCreateForm = ({ location, history }) => {
                     />
                   </Grid>
                   <Grid item xs={12}>
+                    <TextField
+                      placeholder="imageUrl"
+                      label="imageUrl*"
+                      variant="outlined"
+                      size="medium"
+                      name="imageUrl"
+                      fullWidth
+                      helperText={hasError('imageUrl') ? formState.errors.imageUrl[0] : null}
+                      error={hasError('imageUrl')}
+                      onChange={handleChange}
+                      type="text"
+                      value={formState.values.imageUrl || ''}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      placeholder="isVttBestSeller"
+                      label="isVttBestSeller*"
+                      variant="outlined"
+                      size="medium"
+                      name="isVttBestSeller"
+                      fullWidth
+                      helperText={hasError('isVttBestSeller') ? formState.errors.isVttBestSeller[0] : null}
+                      error={hasError('isVttBestSeller')}
+                      onChange={handleChange}
+                      type="text"
+                      value={formState.values.isVttBestSeller || ''}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
                   <Button
                          size="small"
                          variant="contained"
@@ -347,14 +356,6 @@ const ProductCreateForm = ({ location, history }) => {
                           >
                             Create
                           </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      variant="subtitle1"
-                      color="textSecondary"
-                      align="center"
-                    >
-                    </Typography>
                   </Grid>
                 </Grid>
               </form>

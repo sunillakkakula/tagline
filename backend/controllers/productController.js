@@ -137,29 +137,32 @@ const remove = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const create = asyncHandler(async (req, res) => {
   const {
-    name,
-    description,
-    imageUrl,
-    brand,
-    subCategory,
-    countInStock,
-    isTaxable,
-    taxPercent,
-    isVttBestSeller,
-    user,
+        name,
+        brand,
+        description,
+        countInStock,
+        isTaxble,
+        taxPercent,
+        imageUrl,
+        isVttBestSeller,
+        // user,
+        subCategory
+
+    
   } = req.body;
 
   const product = new Product({
     name,
-    description,
-    user: user,
-    imageUrl: imageUrl,
     brand,
-    subCategory: subCategory,
+    description,
     countInStock,
-    isTaxable,
+    isTaxble,
     taxPercent,
+    imageUrl,
     isVttBestSeller,
+    user:"608cba1e3641497ee41153c9",
+    subCategory
+
   });
 
   const createdProduct = await product.save();
@@ -177,7 +180,7 @@ const update = asyncHandler(async (req, res) => {
     brand,
     subCategory,
     countInStock,
-    isTaxable,
+    isTaxble,
     taxPercent,
     isVttBestSeller,
   } = req.body;

@@ -3,13 +3,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridItem from "./Grid/GridItem.js";
 import  Section  from './organisms/Section/Section';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import SubCategoryForm from './SubCategoryForm';
+// import ProductCreateForm from './ProductCreateForm';
 import {
   Grid,
   Button,
 } from "@material-ui/core";
+import ProductCreateForm from "./ProductCreateForm.js";
 
-const SubCategoryCreate = ({ history, location,match }) => {
+const ProductCreate = ({ history, location,match }) => {
   
   const useStyles = makeStyles(theme => ({
     formContainer: {
@@ -45,7 +46,7 @@ const SubCategoryCreate = ({ history, location,match }) => {
       </Grid>
       <Section className={classes.section}>
         <div className={classes.formContainer}>
-        <SubCategoryForm location={location} history={history}/> 
+        <ProductCreateForm location={location} history={history}/> 
         </div>
       </Section>
     </div>
@@ -54,4 +55,4 @@ const SubCategoryCreate = ({ history, location,match }) => {
 
 }
 
-export default SubCategoryCreate;
+export default ProductCreate;

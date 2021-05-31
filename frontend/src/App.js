@@ -35,6 +35,7 @@ import SubCategoryCreate from "./components/SubCategoryCreate";
 import CategoryListScreen from "./components/CategoryListScreen";
 import SubCategoryListScreen from "./components/SubCategoryListScreen";
 import CategoryEditScreen from "./components/CategoryEditScreen";
+import ProductCreate from "./components/ProductCreate";
 
 function App() {
   return (
@@ -103,7 +104,7 @@ function App() {
             />
             <Route
               path="/admin/product/new"
-              component={ProductCreateScreen}
+              component={ProductCreate}
               exact
             />
             <Route path="/admin/orders" component={OrderListScreen} exact />

@@ -98,14 +98,14 @@ const ProductListScreen = ({ history, match }) => {
   const subCategoriesByCategory = useSelector(
     (state) => state.subCategoryListByCategory
   );
-  let cats;
+  let cats=[];
   if (categories) {
-    console.log(categories);
+    // console.log(categories);
     cats = categories.categories;
   }
 
   const { subcategories } = subCategoriesByCategory;
-  console.log(subcategories);
+  //console.log(subcategories);
 
   let renderCategoriesOptions = "";
   if (cats && cats.length > 0) {

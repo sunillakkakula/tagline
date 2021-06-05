@@ -136,16 +136,16 @@ const remove = asyncHandler(async (req, res) => {
 // @route   POST /api/products
 // @access  Private/Admin
 const create = asyncHandler(async (req, res) => {
+  console.log("EXEC create..")
   const {
         name,
         brand,
         description,
         countInStock,
-        isTaxble,
+        isTaxable,
         taxPercent,
         imageUrl,
         isVttBestSeller,
-        // user,
         subCategory
 
     
@@ -156,7 +156,7 @@ const create = asyncHandler(async (req, res) => {
     brand,
     description,
     countInStock,
-    isTaxble,
+    isTaxable,
     taxPercent,
     imageUrl,
     isVttBestSeller,
@@ -164,7 +164,7 @@ const create = asyncHandler(async (req, res) => {
     subCategory
 
   });
-
+  console.log("Before Saving product from Product Controller : "+product)
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
 });

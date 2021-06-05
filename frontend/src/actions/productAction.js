@@ -247,7 +247,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createProduct = (name,  brand,  description,  countInStock,  isTaxble,  taxPercent,imageUrl,isVttBestSeller,subCategory) => async (dispatch) => {
+export const createProduct = (name,  brand,  description,  countInStock,  isTaxable,  taxPercent,imageUrl,isVttBestSeller,subCategory) => async (dispatch) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
@@ -255,8 +255,8 @@ export const createProduct = (name,  brand,  description,  countInStock,  isTaxb
    
     
     console.log(
-      "name : " +name +" , description : " +description +" , brand : " +brand +" , countInStock : " + countInStock +" , isTaxble : " +
-      isTaxble +" , taxPercent : " +taxPercent+" , imageUrl : " +imageUrl+" , isVttBestSeller: "+isVttBestSeller+" , User :  subCategory : " +subCategory);
+      "name : " +name +" , description : " +description +" , brand : " +brand +" , countInStock : " + countInStock +" , isTaxable : " +
+      isTaxable +" , taxPercent : " +taxPercent+" , imageUrl : " +imageUrl+" , isVttBestSeller: "+isVttBestSeller+" , User :  subCategory : " +subCategory);
     dispatch({ type: PRODUCT_CREATE_REQUEST });
     const { data } = await axios.post(
       `/api/product/`,
@@ -265,7 +265,7 @@ export const createProduct = (name,  brand,  description,  countInStock,  isTaxb
         brand,
         description,
         countInStock,
-        isTaxble,
+        isTaxable,
         taxPercent,
         imageUrl,
         isVttBestSeller,

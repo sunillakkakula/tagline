@@ -40,7 +40,7 @@ const schema = {
   countInStock: {
     presence: { allowEmpty: false, message: 'is required' },
   },
-  isTaxble: {
+  isTaxable: {
     presence: { allowEmpty: false, message: 'is required' },
   },
   taxPercent: {
@@ -84,7 +84,7 @@ const ProductCreateForm = ({ location, history }) => {
   }, [dispatch]);
 
   const productCreate = useSelector((state) => state.productCreate);
-  const { loading, error, product, success } = productCreate;
+  const { loading, error, product, success_create } = productCreate;
 
   
   const categoryList = useSelector((state) => state.categoryList);
@@ -98,10 +98,11 @@ const ProductCreateForm = ({ location, history }) => {
     (state) => state.subCategoryListByCategory
   );
   const { subcategories } = subCategoriesByCategory;
-  console.log(subcategories);
+  // console.log(subcategories);
   
-  if (categories) console.log(categories);
-  let cats = categories ? categories.categories : [];
+  let cats = [];
+  if (categories) //console.log(categories);
+    cats = categories ? categories.categories : [];
 
   let renderCategoriesOptions = "";
   if (cats && cats.length > 0) {
@@ -124,7 +125,7 @@ const ProductCreateForm = ({ location, history }) => {
       );
     });
   }
-  if (success) {
+  if (success_create) {
     console.log("Success Response to redirecting to Products List");
     history.push("/admin/products");
   }
@@ -160,6 +161,7 @@ const ProductCreateForm = ({ location, history }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
+    console.log("EXEC handleSubmit()...")
     console.log(formState.values,subCategorySelected)
     
     if (formState.isValid) {
@@ -170,11 +172,10 @@ const ProductCreateForm = ({ location, history }) => {
           formState.values.brand,
           formState.values.description,
           formState.values.countInStock,
-          formState.values.isTaxble,
+          formState.values.isTaxable,
           formState.values.taxPercent,
           formState.values.imageUrl,
           formState.values.isVttBestSeller,
-          
           subCategorySelected
         )
       );

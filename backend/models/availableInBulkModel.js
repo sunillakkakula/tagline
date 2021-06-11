@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const availableInBulkSchema = mongoose.Schema(
   {
     unitOfMessure: { type: String, required: true },
-    qty: { type: Number, required: true },
-    unitPrice: { type: Number, required: true },
+    qty: { type: Number, required: false },
+    unitPrice: { type: Number, required: false },
     sellingPrice: { type: Number, required: true },
     mrp: { type: Number },
     product: {

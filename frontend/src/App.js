@@ -31,14 +31,13 @@ import MuiHeader from "./components/MuiHeader";
 import Dashboard from "./components/Dashboard";
 import ProductSettingsScreen from "./components/ProductSettingsScreen";
 import CategoryCreate from "./components/CategoryCreate";
+import BulkItemCreate from "./components/BulkItemCreate";
+
 import SubCategoryCreate from "./components/SubCategoryCreate";
 import CategoryListScreen from "./components/CategoryListScreen";
 import SubCategoryListScreen from "./components/SubCategoryListScreen";
 import CategoryEditScreen from "./components/CategoryEditScreen";
 import ProductCreate from "./components/ProductCreate";
-import DomesticScreen from "./components/DomesticScreen";
-import BusinessScreen from "./components/BusinessScreen";
-import BusinessListScreen from "./components/BulkListScreen";
 import BulkListScreen from "./components/BulkListScreen";
 
 function App() {
@@ -111,6 +110,12 @@ function App() {
               component={ProductCreate}
               exact
             />
+            
+            <Route
+              path="/admin/bulk/new/:id"
+              component={BulkItemCreate}
+              exact
+            />
             <Route path="/admin/orders" component={OrderListScreen} exact />
             <Route
               path="/search/:keyword"
@@ -149,7 +154,7 @@ function App() {
               exact
             />
             <Route
-              path="/admin/product-bulk/:productId"
+              path="/admin/product-bulk/:id"
               component={BulkListScreen}
               exact
             />

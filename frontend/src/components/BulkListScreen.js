@@ -55,7 +55,8 @@ const styles = {
 };
 
 const BulkListScreen = ({ history, match }) => {
-  let productId = match.params.productId;
+  let productId = match.params.id;
+  console.log("productId : "+productId)
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   let renderproducts = "";
@@ -107,6 +108,12 @@ const BulkListScreen = ({ history, match }) => {
     // setAction("edit");
   };
 
+  const createBulkItemHandler = (product) => {
+    console.log("Before Push  product :"+product)
+    history.push('/admin/bulk/new/'+product);
+  };
+
+
   return (
     <>
         <Fragment>
@@ -117,6 +124,7 @@ const BulkListScreen = ({ history, match }) => {
                color="primary"
                className={classes.button}
                style={{marginTop:"1rem",marginBottom:"1rem"}}
+               onClick={() => createBulkItemHandler(productId)}
                startIcon={<AddCircleOutlineRoundedIcon />}
               >
           BULK

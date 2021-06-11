@@ -201,7 +201,7 @@ const ProductListScreen = ({ history, match }) => {
           />
           <BusinessIcon
           style={{ color: "green" }}
-          onClick={() => handleBusiness(product._id)}
+          onClick={() => handleBulk(product._id)}
         />
         </td>
       </tr>
@@ -264,8 +264,8 @@ const ProductListScreen = ({ history, match }) => {
   const handleDomestic = (id) => {
     history.push(`/admin/product-domestic/${id}`);
   };
-  const handleBusiness = (id) => {
-    history.push(`/admin/product-business/${id}`);
+  const handleBulk = (id) => {
+    history.push(`/admin/product-bulk/${id}`);
   };
   const createProductHandler = (product) => {
     history.push("/admin/product/new");

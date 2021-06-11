@@ -58,13 +58,24 @@ export const deleteBulkByProductId = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createBulkByProductId = (id) => async (dispatch, getState) => {
+export const createBulkByProductId = (product,unitOfMessure,sellingPrice) => async (dispatch, getState) => {
   try {
     dispatch({
       type: BULK_CREATE_BY_PRODUCT_ID_REQUEST,
     });
 
-    const { data } = await axios.post(`/api/avail-bulk/product/${id}`, {});
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    // const { data } = await axios.post(`/api/avail-bulk/product/${id}`, {});
+    const { data } = await axios.post(`/api/avail-bulk`,
+      { product,unitOfMessure, sellingPrice },
+      config
+    );
+
 
     dispatch({
       type: BULK_CREATE_BY_PRODUCT_ID_SUCCESS,

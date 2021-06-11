@@ -47,7 +47,7 @@ const getAllByProductId = asyncHandler(async (req, res) => {
   console.log(productId);
   const availableInBulks = await AvailableInBulk.find();
   const filteredBulk = availableInBulks.filter(
-    (bulk) => bulk.product === productId
+    (bulk) => bulk.product+"" === productId
   );
   console.log(filteredBulk);
   if (filteredBulk) {

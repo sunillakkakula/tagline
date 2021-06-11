@@ -12,7 +12,11 @@ import { Table } from "react-bootstrap";
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import { Typography, Grid, Button,TextField} from "@material-ui/core";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import DeleteForeverRoundedIcon from "@material-ui/icons/DeleteForeverRounded";
+import Dialog from '@material-ui/core/Dialog'
+import ConfirmDialog from './ConfirmDialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import { updateCategory ,deleteCategory,listCategories} from "../actions/categoryAction";
+
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import {
   createBulkByProductId,
@@ -59,7 +63,12 @@ const BulkListScreen = ({ history, match }) => {
   console.log("productId : "+productId)
   const useStyles = makeStyles(styles);
   const classes = useStyles();
-  let renderproducts = "";
+
+  const [open, setOpen] = useState(() => false);
+  const [confirmOpen, setConfirmOpen] = useState(() => false);
+  const [editableBulkRecord,setEditableBulkRecord]  = useState(()=>{});
+  const [action,setAction]  = useState(()=>{});
+
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -86,7 +95,7 @@ const BulkListScreen = ({ history, match }) => {
         <td>
           <DeleteOutlineIcon
             style={{ color: "red" }}
-            onClick={() => deleteHandler(eachRec._id)}
+            onClick={() => handleDelete(eachRec._id)}
           />
         </td>
         
@@ -94,24 +103,49 @@ const BulkListScreen = ({ history, match }) => {
     ));
   }
 
-  const deleteHandler = (id) => {
-    console.log(bulk)
-    // if (window.confirm("Are you sure")) {
-    //   dispatch(delete(id));
-    // }
-  };
+  const unitOfMessureChangeHandler = (unitOfMessure)=>{
+    setEditableBulkRecord({...editableBulkRecord,unitOfMessure:unitOfMessure})
+    console.log(editableBulkRecord)
+  }
+  
+  const sellingPriceChangeHandler = (sellPrice)=>{
+    setEditableBulkRecord({...editableBulkRecord,sellingPrice:sellPrice})
+    console.log(editableBulkRecord)
+  }
 
-  const handleEdit = (bulk) => {
-    console.log(bulk)
-    // setOpen(true)
-    console.log("ID SELECTED : "+bulk._id)
-    // setAction("edit");
-  };
+  const handleEdit = (bulkRec) => {
+    setOpen(true)
+    console.log("ID SELECTED : "+bulkRec._id)
+    setEditableBulkRecord(bulkRec);
+    setAction("edit");
+  }
+
+  const handleDelete = (bulkRec) => {
+    console.log("handleDelete Exec..."+bulkRec._id)
+    setAction("delete");
+    setConfirmOpen(true)
+    console.log("ID SELECTED : "+bulkRec._id)
+  }
+
 
   const createBulkItemHandler = (product) => {
     console.log("Before Push  product :"+product)
     history.push('/admin/bulk/new/'+product);
   };
+
+  const submitHandler=()=>{
+    console.log("EXEC submitHandler")
+    if(action==="edit"){
+    console.log(editableBulkRecord)
+    dispatch(updateBulkByProductId(editableBulkRecord._id, editableBulkRecord.unitOfMessure, editableBulkRecord.sellingPrice));
+    setOpen(false);
+    setEditableBulkRecord({})
+    }else if(action==="delete"){
+      console.log(editableBulkRecord)
+    dispatch(deleteCategory(editableBulkRecord._id));
+    setOpen(false);
+    }
+  }
 
 
   return (
@@ -171,6 +205,77 @@ const BulkListScreen = ({ history, match }) => {
               </Card>
             </GridItem>
           </GridContainer>
+          <ConfirmDialog
+    title="Delete Category ?"
+    open={confirmOpen}
+    setOpen={setConfirmOpen}
+    onConfirm={()=>console.log("...DELETING")}
+  >
+    Are you sure you want to delete ?
+  </ConfirmDialog>
+        <Dialog open={open} onClose={()=>setOpen(false)}>
+            <DialogContent>
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>Edit Bulk Record </h4>
+                </CardHeader>
+                <CardBody>
+                  <form onSubmit={submitHandler}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                            <TextField
+                              className={classes.inputText}
+                              placeholder="Units Of Messure"
+                              variant="outlined"
+                              name="unitOfMessure"
+                              onChange={(e)=>unitOfMessureChangeHandler(e.target.value)}
+                              type="text"
+                              size="small"
+                              value={editableBulkRecord && editableBulkRecord.unitOfMessure  ?editableBulkRecord.unitOfMessure:""}
+                              fullWidth
+                              InputProps={{
+                                classes: { input: classes.input },
+                              }}
+                            />
+                            </Grid>
+                            <Grid item xs={12}>
+                            <TextField
+                                className={classes.inputText}
+                                placeholder="Selling Price"
+                                variant="outlined"
+                                name="sellingPrice"
+                                id="sellingPrice"
+                                onChange={(e)=>sellingPriceChangeHandler(e.target.value)}
+                                type="text"
+                                size="small"
+                                value={editableBulkRecord && editableBulkRecord.sellingPrice  ?editableBulkRecord.sellingPrice:""}
+                                fullWidth
+                                InputProps={{
+                                  classes: { input: classes.input },
+                                }}
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                type="submit"
+                                color="primary"
+                                fullWidth
+                              >
+                                UPDATE
+                              </Button>
+                            </Grid>
+                    </Grid>
+                  </form>
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+            </DialogContent>
+        </Dialog>
           </Fragment>
     </>
   );

@@ -94,13 +94,13 @@ export const createBulkByProductId = (product,unitOfMessure,sellingPrice) => asy
   }
 };
 
-export const updateBulkByProductId = (id) => async (dispatch, getState) => {
+export const updateBulkByProductId = (id,unitOfMessure,sellingPrice) => async (dispatch, getState) => {
   try {
     dispatch({
       type: BULK_UPDATE_BY_PRODUCT_ID_REQUEST,
     });
 
-    const { data } = await axios.put(`/api/avail-bulk/product/${id}`);
+    const { data } = await axios.put(`/api/avail-bulk/${id}`);
 
     dispatch({
       type: BULK_UPDATE_BY_PRODUCT_ID_SUCCESS,

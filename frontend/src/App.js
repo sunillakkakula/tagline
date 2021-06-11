@@ -36,6 +36,8 @@ import CategoryListScreen from "./components/CategoryListScreen";
 import SubCategoryListScreen from "./components/SubCategoryListScreen";
 import CategoryEditScreen from "./components/CategoryEditScreen";
 import ProductCreate from "./components/ProductCreate";
+import DomesticScreen from "./components/DomesticScreen";
+import BusinessScreen from "./components/BusinessScreen";
 
 function App() {
   return (
@@ -137,6 +139,16 @@ function App() {
             <Route
               path="/admin/product-settings/:productId"
               component={ProductSettingsScreen}
+              exact
+            />
+            <Route
+              path="/admin/product-domestic/:productId"
+              component={DomesticScreen}
+              exact
+            />
+            <Route
+              path="/admin/product-business/:productId"
+              component={BusinessScreen}
               exact
             />
             {/* <Route path="/admin/products" component={ProductListScreen} exact /> */}

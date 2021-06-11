@@ -180,7 +180,7 @@ const update = asyncHandler(async (req, res) => {
     brand,
     subCategory,
     countInStock,
-    isTaxble,
+    isTaxable,
     taxPercent,
     isVttBestSeller,
   } = req.body;
@@ -189,14 +189,13 @@ const update = asyncHandler(async (req, res) => {
 
   if (product) {
     product.name = name;
-    product.imageUrl = imageUrl;
     product.description = description;
     product.imageUrl = imageUrl;
-    product.brand = brand;
     product.countInStock = countInStock;
     product.subCategory = subCategory;
     product.isTaxable = isTaxable;
     product.taxPercent = taxPercent;
+    product.brand = brand;
     product.isVttBestSeller = isVttBestSeller;
 
     const updatedProduct = await product.save();

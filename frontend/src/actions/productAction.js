@@ -294,6 +294,8 @@ export const createProduct = (name,  brand,  description,  countInStock,  isTaxa
 };
 
 export const updateProduct = (product) => async (dispatch, getState) => {
+  console.log("EXEC update Product : ")
+  console.log(product)
   try {
     dispatch({
       type: PRODUCT_UPDATE_REQUEST,

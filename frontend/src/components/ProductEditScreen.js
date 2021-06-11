@@ -1,14 +1,10 @@
-import axios from "axios";
 import React, { useState, useEffect, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Spinner from "../components/controls/Spinner";
-import { Link } from "react-router-dom";
-// import Button from "../components/controls/Button";
 import GridItem from "../components/Grid/GridItem.js";
 import GridContainer from "../components/Grid/GridContainer.js";
-// import Table from "../components/Table/Table.js";
 import Card from "../components/Card/Card.js";
 import CardHeader from "../components/Card/CardHeader.js";
 import CardBody from "../components/Card/CardBody.js";
@@ -16,31 +12,15 @@ import {
   listProductDetailsByProductId,
   updateProduct,
 } from "../actions/productAction";
-import { Table } from "react-bootstrap";
-import Paginate from "../components/Paginate";
-import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import {
-  PRODUCT_CREATE_RESET,
-  PRODUCT_UPDATE_RESET,
-} from "../constants/productConstants";
-import {
-  listProducts,
-  deleteProduct,
-  createProduct,
-} from "../actions/productAction";
-import { useTheme } from "@material-ui/core/styles";
-import {
-  Typography,
   Grid,
   Button,
   TextField,
-  Paper,
-  IconButton,
 } from "@material-ui/core";
 
-const ProductEditScreen = ({ history, match }) => {
-  const productId = match.params.id;
+const ProductEditScreen = ({product}) => {
+  // const productId = match.params.id;
+  console.log(product)
   const useStyles = makeStyles(() => ({
     root: {
       flexGrow: 0,
@@ -49,8 +29,7 @@ const ProductEditScreen = ({ history, match }) => {
       marginBottom: "1rem",
       display: "flex",
       flexDirection: "inherit",
-      // justifyContent: "center",
-      // alignContent: "center",
+      
       alignItems: "center",
       height: "30rem",
       width: "30rem",
@@ -114,33 +93,28 @@ const ProductEditScreen = ({ history, match }) => {
 
   const dispatch = useDispatch();
 
-  const productDetailsByProductId = useSelector(
-    (state) => state.productDetailsByProductId
-  );
-  const { loading, error, product } = productDetailsByProductId;
-  // const productUpdate = useSelector((state) => state.productUpdate);
-  // const {
-  //   loading: loadingUpdate,
-  //   error: errorUpdate,
-  //   success: successUpdate,
-  // } = productUpdate;
-  useEffect(() => {
-    if (product.id !== productId) {
-      console.log("!product.name || product.id !== productId");
-      dispatch(listProductDetailsByProductId(productId));
-    } else {
-      console.log("Exec Else of !product.name || product.id !== productId");
-      setName(product.name);
-      setPrice(product.price);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setCountInStock(product.countInStock);
-      setDescription(product.description);
-    }
-  }, [dispatch, history, productId]);
+  // const productDetailsByProductId = useSelector(
+  //   (state) => state.productDetailsByProductId
+  // );
+  // const { loading, error, product } = productDetailsByProductId;
+  
+  // useEffect(() => {
+  //   if (product.id !== productId) {
+  //     console.log("!product.name || product.id !== productId");
+  //     dispatch(listProductDetailsByProductId(productId));
+  //   } else {
+  //     console.log("Exec Else of !product.name || product.id !== productId");
+  //     setName(product.name);
+  //     setPrice(product.price);
+  //     setImage(product.image);
+  //     setBrand(product.brand);
+  //     setCategory(product.category);
+  //     setCountInStock(product.countInStock);
+  //     setDescription(product.description);
+  //   }
+  // }, [dispatch, history, productId]);
 
-  // const uploadFileHandler = async (e) => {
+  // // const uploadFileHandler = async (e) => {
   //   const file = e.target.files[0];
   //   const formData = new FormData();
   //   formData.append("image", file);
@@ -180,36 +154,7 @@ const ProductEditScreen = ({ history, match }) => {
   };
   return (
     <>
-      {/* {loadingUpdate && <Spinner />}
-      {errorUpdate && <Message variant="danger">{errorUpdate}</Message>} */}
-      {loading ? (
-        <Spinner />
-      ) : error ? (
-        <Message variant="danger">{error}</Message>
-      ) : (
         <Fragment>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={12}>
-              <Link
-                className="btn"
-                size="small"
-                variant="contained"
-                type="submit"
-                color="primary"
-                to="/admin/productlist"
-                style={{
-                  color: "white",
-                  backgroundColor: "#26A541",
-                  marginTop: "1rem",
-                  marginBottom: "1rem",
-                  align: "center",
-                  width: "9rem",
-                }}
-              >
-                Go Back
-              </Link>
-            </GridItem>
-          </GridContainer>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <Card>
@@ -378,12 +323,12 @@ const ProductEditScreen = ({ history, match }) => {
                                 classes: { input: classes.input },
                               }}
                             />
-                            <file
+                            {/* <file
                               id="image-file"
                               label="Choose File"
                               // custom
                               // onChange={uploadFileHandler}
-                            ></file>
+                            ></file> */}
                           </Grid>
                         </Grid>
                       </Grid>
@@ -415,7 +360,6 @@ const ProductEditScreen = ({ history, match }) => {
             </GridItem>
           </GridContainer>
         </Fragment>
-      )}
     </>
   );
 };

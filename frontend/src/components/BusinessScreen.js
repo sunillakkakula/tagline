@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import ProductConfigureForm from "./ProductConfigureForm";
 import ProductConfigureTable from "./ProductConfigureTable";
 
-class ProductSettingsScreen extends Component {
+class BusinessScreen extends Component {
   state = {
     data: [],
     editIdx: -1,
@@ -83,4 +83,4 @@ class ProductSettingsScreen extends Component {
   }
 }
 
-export default ProductSettingsScreen;
+export default BusinessScreen;

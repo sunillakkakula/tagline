@@ -13,14 +13,20 @@ import { Table } from "react-bootstrap";
 import Paginate from "../components/Paginate";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
+import Dialog from '@material-ui/core/Dialog'
+import ConfirmDialog from './ConfirmDialog'
+import DialogContent from '@material-ui/core/DialogContent'
 import SettingsIcon from "@material-ui/icons/Settings";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import BusinessIcon from '@material-ui/icons/Business';
+import HomeIcon from '@material-ui/icons/Home';
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
-import { Typography, Grid, Button,  Select } from "@material-ui/core";
+import { Typography, Grid, Button,  Select ,TextField} from "@material-ui/core";
 import {
   deleteProduct,
   listProductsByCategoryId,
   listProductsBySubCategoryId,
+  updateProduct
 } from "../actions/productAction";
 import { listCategories } from "../actions/categoryAction";
 import { listSubCategoriesByCategoryId } from "../actions/subCategoryAction";
@@ -64,6 +70,13 @@ const ProductListScreen = ({ history, match }) => {
 
   const [categorySelected, setCategorySelected] = useState(() => "");
   const [subCategorySelected, setSubCategorySelected] = useState(() => "");
+
+  const [open, setOpen] = useState(() => false);
+  const [confirmOpen, setConfirmOpen] = useState(() => false);
+  const [filteredProduct,setFilteredProduct ] = useState(()=>{});
+  const [action,setAction]  = useState(()=>{});
+
+
   const dispatch = useDispatch();
 
   const handleChangeCategory = (e) => {
@@ -90,6 +103,30 @@ const ProductListScreen = ({ history, match }) => {
     dispatch(listProductsBySubCategoryId(subCategorySelected));
   }, [dispatch, subCategorySelected]);
 
+  const nameChangeHandler = (nm)=>{
+    setFilteredProduct({...filteredProduct,name:nm})
+  }
+
+  const descChangeHandler = (dsc)=>{
+    setFilteredProduct({...filteredProduct,description:dsc})
+  }
+
+  const countInStockHandler = (cis)=>{
+    setFilteredProduct({...filteredProduct,countInStock:cis})
+  }
+
+  const taxPercentHandler = (tp)=>{
+    setFilteredProduct({...filteredProduct,taxPercent:tp})
+  }
+
+  const isTaxableChangeHandler = (it)=>{
+    setFilteredProduct({...filteredProduct,isTaxable:it})
+  }
+  
+  const brandChangeHandler = (brd)=>{
+    setFilteredProduct({...filteredProduct,brand:brd})
+  }
+  
   const productListBySubCategory = useSelector(
     (state) => state.productListBySubCategory
   );
@@ -100,12 +137,10 @@ const ProductListScreen = ({ history, match }) => {
   );
   let cats=[];
   if (categories) {
-    // console.log(categories);
     cats = categories.categories;
   }
 
   const { subcategories } = subCategoriesByCategory;
-  //console.log(subcategories);
 
   let renderCategoriesOptions = "";
   if (cats && cats.length > 0) {
@@ -138,29 +173,40 @@ const ProductListScreen = ({ history, match }) => {
         <td>{product.description}</td>
         <td>{product.countInStock}</td>
         <td>{product.taxPercent}</td>
-        <td>{product.isTaxable}</td>
         <td>{product.brand}</td>
+        <td>{product.isTaxable}</td>
         <td>
           <EditRoundedIcon
             style={{ color: "green" }}
-            onClick={() => handleEdit(product._id)}
+            onClick={() => handleEdit(product)}
           />
-          </td>
-          <td>
+        </td>
+        <td>
           <DeleteOutlineIcon
             style={{ color: "red" }}
           />
-          </td>
-          <td>
+        </td>
+        <td>
+        <SettingsIcon
+            style={{ color: "green" }}
+          />
+        <HomeIcon
+            style={{ color: "green" }}
+            onClick={() => handleDomestic(product._id)}
+          />
+        </td>
+        <td>
           <SettingsIcon
             style={{ color: "green" }}
-            onClick={() => handleSettings(product._id)}
           />
+          <BusinessIcon
+          style={{ color: "green" }}
+          onClick={() => handleBusiness(product._id)}
+        />
         </td>
       </tr>
     ));
   }
-  // }
 
   const productDelete = useSelector((state) => state.productDelete);
   const {
@@ -205,15 +251,40 @@ const ProductListScreen = ({ history, match }) => {
     }
   };
 
-  const handleEdit = (id) => {
-    history.push(`/admin/product/${id}/edit`);
+  const handleEdit = (product) => {
+    console.log(product)
+    setOpen(true)
+    console.log("ID SELECTED : "+product._id)
+    setFilteredProduct(product);
+    setAction("edit");
   };
   const handleSettings = (id) => {
     history.push(`/admin/product-settings/${id}`);
   };
+  const handleDomestic = (id) => {
+    history.push(`/admin/product-domestic/${id}`);
+  };
+  const handleBusiness = (id) => {
+    history.push(`/admin/product-business/${id}`);
+  };
   const createProductHandler = (product) => {
     history.push("/admin/product/new");
   };
+
+  const submitHandler=()=>{
+    console.log("EXEC submitHandler")
+    if(action==="edit"){
+    console.log(filteredProduct)
+    // dispatch(updateProduct(filteredProduct._id, filteredProduct.name, filteredProduct.description,filteredProduct.countInStock,filteredProduct.isTaxable,filteredProduct.taxPercent,filteredProduct.isTaxable,filteredProduct.brand));
+    dispatch(updateProduct(filteredProduct));
+    setOpen(false);
+    setFilteredProduct({})
+    }else if(action==="delete"){
+      console.log(filteredProduct)
+    dispatch(deleteProduct(filteredProduct._id));
+    setOpen(false);
+    }
+  }
 
   return (
     <>
@@ -293,20 +364,20 @@ const ProductListScreen = ({ history, match }) => {
                             Description
                           </Typography>
                         </th>
-                        <th>
+                        <th style={{width:"2rem"}}>
                           <Typography
                             className={classes.cardTitleGreen}
-                            align="center"
+                            align="center" 
                           >
-                            Count In Stock
+                            Stock#
                           </Typography>
                         </th>
-                        <th>
+                        <th style={{width:"2rem"}}>
                           <Typography
                             className={classes.cardTitleGreen}
-                            align="center"
+                            align="center" 
                           >
-                            Tax Percent
+                            Tax %
                           </Typography>
                         </th>
                         <th>
@@ -317,13 +388,15 @@ const ProductListScreen = ({ history, match }) => {
                             Brand
                           </Typography>
                         </th>
-                        <th>
+                        <th style={{width:"2rem"}}>
                           <Typography
                             className={classes.cardTitleGreen}
-                            align="center"
+                            align="center" 
                           >
                             Taxable?
                           </Typography>
+                        </th>
+                        <th>
                         </th>
                         <th>
                         </th>
@@ -340,6 +413,134 @@ const ProductListScreen = ({ history, match }) => {
               </Card>
             </GridItem>
           </GridContainer>
+          <Dialog open={open} onClose={()=>setOpen(false)}>
+            <DialogContent>
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={classes.cardTitleWhite}>Edit Product </h4>
+                </CardHeader>
+                <CardBody>
+                  <form onSubmit={submitHandler}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                            <TextField
+                              className={classes.inputText}
+                              placeholder="Name"
+                              variant="outlined"
+                              name="name"
+                              onChange={(e)=>nameChangeHandler(e.target.value)}
+                              type="text"
+                              size="small"
+                              value={filteredProduct && filteredProduct.name  ?filteredProduct.name:""}
+                              fullWidth
+                              InputProps={{
+                                classes: { input: classes.input },
+                              }}
+                            />
+                      </Grid>
+                      <Grid item xs={12}>
+                            <TextField
+                                className={classes.inputText}
+                                placeholder="Description"
+                                variant="outlined"
+                                name="description"
+                                id="description"
+                                onChange={(e)=>descChangeHandler(e.target.value)}
+                                type="text"
+                                size="small"
+                                value={filteredProduct && filteredProduct.description  ?filteredProduct.description:""}
+                                fullWidth
+                                InputProps={{
+                                  classes: { input: classes.input },
+                                }}
+                              />
+                      </Grid>
+                       <Grid item xs={12}>
+                            <TextField
+                              className={classes.inputText}
+                              placeholder="In Stock #"
+                              variant="outlined"
+                              name="countInStock"
+                              id="countInStock"
+                              onChange={(e)=>countInStockHandler(e.target.value)}
+                              type="text"
+                              size="small"
+                              value={filteredProduct && filteredProduct.countInStock  ?filteredProduct.countInStock:""}
+                              fullWidth
+                              InputProps={{
+                                classes: { input: classes.input },
+                              }}
+                            />
+                      </Grid>
+                      <Grid item xs={12}>
+                            <TextField
+                              className={classes.inputText}
+                              placeholder="Tax Percent"
+                              variant="outlined"
+                              name="countInStock"
+                              onChange={(e)=>taxPercentHandler(e.target.value)}
+                              type="text"
+                              size="small"
+                              value={filteredProduct && filteredProduct.taxPercent  ?filteredProduct.taxPercent:""}
+                              fullWidth
+                              InputProps={{
+                                classes: { input: classes.input },
+                              }}
+                            />
+                      </Grid>
+                      <Grid item xs={12}>
+                            <TextField
+                              className={classes.inputText}
+                              placeholder="Brand"
+                              variant="outlined"
+                              name="brand"
+                              onChange={(e)=>brandChangeHandler(e.target.value)}
+                              type="text"
+                              size="small"
+                              value={filteredProduct && filteredProduct.brand  ?filteredProduct.brand:""}
+                              fullWidth
+                              InputProps={{
+                                classes: { input: classes.input },
+                              }}
+                            />
+                      </Grid>
+                      <Grid item xs={12}>
+                            <TextField
+                              className={classes.inputText}
+                              placeholder="Brand"
+                              variant="outlined"
+                              name="brand"
+                              onChange={(e)=>isTaxableChangeHandler(e.target.value)}
+                              type="text"
+                              size="small"
+                              value={filteredProduct && filteredProduct.isTaxable  ?filteredProduct.isTaxable:""}
+                              fullWidth
+                              InputProps={{
+                                classes: { input: classes.input },
+                              }}
+                            />
+                      </Grid>
+                            <Grid item xs={12}>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                type="submit"
+                                color="primary"
+                                fullWidth
+                              >
+                                UPDATE
+                              </Button>
+                            </Grid>
+                    </Grid>
+                  </form>
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+            </DialogContent>
+        </Dialog>
         </Fragment>
       )}
     </>

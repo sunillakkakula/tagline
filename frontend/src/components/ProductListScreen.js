@@ -187,22 +187,26 @@ const ProductListScreen = ({ history, match }) => {
           />
         </td>
         <td>
-        <SettingsIcon
-            style={{ color: "green" }}
-          />
-        <HomeIcon
-            style={{ color: "green" }}
-            onClick={() => handleDomestic(product._id)}
-          />
+        <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={() => handleDomestic(product._id)}
+        startIcon={<SettingsIcon />}
+      >
+        DOMESTIC
+      </Button>
         </td>
         <td>
-          <SettingsIcon
-            style={{ color: "green" }}
-          />
-          <BusinessIcon
-          style={{ color: "green" }}
-          onClick={() => handleBulk(product._id)}
-        />
+        <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={() => handleBulk(product._id)}
+        startIcon={<SettingsIcon />}
+      >
+        BULK
+      </Button>
         </td>
       </tr>
     ));

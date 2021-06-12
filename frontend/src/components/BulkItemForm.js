@@ -47,9 +47,21 @@ const BulkItemForm = (props) => {
     errors: {},
   });
 
+  const bulkUpdateByProductId = useSelector(
+    (state) => state.bulkUpdateByProductId
+  );
+  
+  const [loading_update,success_update,error_update] =  bulkUpdateByProductId;
+
   const productDetailsByProductId = useSelector(
     (state) => state.productDetailsByProductId
   );
+
+  if (success_update) {
+      console.log("Success Response to redirecting to Bulk List");
+      history.push(`/admin/product-bulk/${productId}`);
+  }
+
   console.log("productDetailsByProductId ")
   console.log(productDetailsByProductId)
 

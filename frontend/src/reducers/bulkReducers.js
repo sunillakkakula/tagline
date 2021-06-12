@@ -71,11 +71,11 @@ export const bulkCreateByProductIdReducer = (state = {}, action) => {
 export const bulkUpdateByProductIdReducer = (state = { bulk: {} }, action) => {
   switch (action.type) {
     case BULK_UPDATE_BY_PRODUCT_ID_REQUEST:
-      return { loading: true };
+      return { loading_update: true };
     case BULK_UPDATE_BY_PRODUCT_ID_SUCCESS:
-      return { loading: false, success: true, bulk: action.payload };
+      return { loading_update: false, success_update: true, bulk: action.payload };
     case BULK_UPDATE_BY_PRODUCT_ID_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading_update: false, error_update: action.payload };
 
     default:
       return state;

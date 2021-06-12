@@ -101,28 +101,31 @@ const create = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update a category
-// @route   PUT /api/categorys/:id
+// @route   PUT /api/categorys/:idp
 // @access  Private/Admin
 const update = asyncHandler(async (req, res) => {
   const {
     unitOfMessure,
-    qty,
-    unitPrice,
     sellingPrice,
-    mrp,
-    product,
+    // qty,
+    // unitPrice,
+    // sellingPrice,
+    // mrp,
+    // product,
   } = req.body;
-  const availableInBulk = await AvailableInBulk.findById(req.params.id);
+  console.log("Exec Update...Handler from Controller.!",unitOfMessure,
+  sellingPrice
+  )
 
+  const availableInBulk = await AvailableInBulk.findById(req.params.id);
+  
   if (availableInBulk) {
+    console.log("setting value to found Bulk Item ")
     availableInBulk.unitOfMessure = unitOfMessure;
-    availableInBulk.qty = qty;
-    availableInBulk.unitPrice = unitPrice;
     availableInBulk.sellingPrice = sellingPrice;
-    availableInBulk.mrp = mrp;
-    availableInBulk.product = product;
 
     const updatedAvailableInBulk = await availableInBulk.save();
+    console.log("Performed save on Bulk Update")
     res.json(updatedAvailableInBulk);
   } else {
     res.status(404);

@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
-import { LearnMoreLink } from './atoms';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userAction";
+import Message from "./Message";
+import CustomBackdropSpinner from "./CustomBackdropSpinner";
+import Loader from "./Loader";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -107,6 +110,8 @@ const Form = ({ location, history }) => {
 
   return (
     <div className={classes.root}>
+      {error && <Message variant='danger'>{error}</Message>}
+      {loading && <CustomBackdropSpinner />}
       <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

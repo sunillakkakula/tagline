@@ -20,6 +20,7 @@ import rupeeSvgIcon from "../assets/images/currency-inr.svg";
 import { Link } from "react-router-dom";
 import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
+import CustomBackdropSpinner from "./CustomBackdropSpinner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +75,7 @@ const ProductScreen = ({ history, match }) => {
     (state) => state.domesticListByProductId
   );
 
-  let { bulk } = bulkListByProductId;
+  let { loading,bulk } = bulkListByProductId;
   let { domestic } = domesticListByProductId;
 
   const [quantitySelected, setQuantitySelected] = useState(() => {
@@ -190,6 +191,7 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <>
+    {loading && <CustomBackdropSpinner />}
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Link

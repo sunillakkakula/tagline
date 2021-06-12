@@ -1,12 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import { Button } from "@material-ui/core";
 import Writeup from "../components/Writeup";
-import { Link, useHistory } from "react-router-dom";
+import {  useHistory } from "react-router-dom";
 import BestSellingProducts from "../components/BestSellingProducts";
-import OurProducts from "../components/MainCategories";
 import MainCategories from "../components/MainCategories";
 const useStyles = makeStyles((theme) => ({
   root: {

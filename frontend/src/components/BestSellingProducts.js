@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { ButtonBase, Card } from "@material-ui/core";
 import { listBestSellerProducts } from "../actions/productAction";
 import Message from "./Message";
+import CustomBackdropSpinner from "./CustomBackdropSpinner";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -126,6 +127,8 @@ const BestSellingProducts = () => {
       <Message>No Records Found for Best Seller category : </Message>
     );
   }
-  return <>{renderBestSellerProducts}</>;
+  return <>
+   {loading && <CustomBackdropSpinner />}
+  {renderBestSellerProducts}</>;
 };
 export default BestSellingProducts;

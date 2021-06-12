@@ -5,6 +5,8 @@ import validate from 'validate.js';
 
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userAction";
+import Message from "./Message";
+import CustomBackdropSpinner from "./CustomBackdropSpinner";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -115,6 +117,8 @@ const SignUpForm = ({ location, history }) => {
 
   return (
     <div className={classes.root}>
+       {error && <Message variant='danger'>{error}</Message>}
+      {loading && <CustomBackdropSpinner />}
       <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
         <Grid item xs={12}>

@@ -19,6 +19,7 @@ import rupeeSvgIcon from "../assets/images/currency-inr.svg";
 import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
 import StepperScreen from "./StepperScreen";
+import CustomBackdropSpinner from "./CustomBackdropSpinner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,7 +83,7 @@ const PlaceOrderScreen = ({ history }) => {
   ).toFixed(2);
 
   const orderCreate = useSelector((state) => state.orderCreate);
-  const { order, success, error } = orderCreate;
+  const { loading,order, success, error } = orderCreate;
 
   useEffect(() => {
     if (success) {
@@ -118,6 +119,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   return (
     <>
+     {loading && <CustomBackdropSpinner />}
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Link

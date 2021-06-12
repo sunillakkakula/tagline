@@ -198,7 +198,7 @@ export default function CustomHeader() {
   );
   return (
     <div className={classes.grow}>
-      <AppBar position="fixed" style={{maxHeight:"3.5rem"}}>
+      <AppBar position="static" style={{maxHeight:"3.5rem"}} >
         <Toolbar style={{maxHeight:"3rem"}}>
         <IconButton
             edge="start"

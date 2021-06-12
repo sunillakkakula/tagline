@@ -58,13 +58,23 @@ export const deleteDomesticByProductId = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createDomesticByProductId = (id) => async (dispatch, getState) => {
+export const createDomesticByProductId = (product,unitOfMessure,sellingPrice) => async (dispatch, getState) => {
   try {
     dispatch({
       type: DOMESTIC_CREATE_BY_PRODUCT_ID_REQUEST,
     });
 
-    const { data } = await axios.post(`/api/avail-domestic/product/${id}`, {});
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(`/api/avail-domestic`,
+      { product,unitOfMessure, sellingPrice },
+      config
+    );
+
 
     dispatch({
       type: DOMESTIC_CREATE_BY_PRODUCT_ID_SUCCESS,
@@ -83,13 +93,18 @@ export const createDomesticByProductId = (id) => async (dispatch, getState) => {
   }
 };
 
-export const updateDomesticByProductId = (id) => async (dispatch, getState) => {
+export const updateDomesticByProductId = (id,unitOfMessure,sellingPrice) => async (dispatch, getState) => {
+  console.error("EXEC  FROM updateDomesticByProductId ",id,unitOfMessure,sellingPrice)
+  console.log("EXEC  FROM updateDomesticByProductId ",id,unitOfMessure,sellingPrice)
   try {
     dispatch({
       type: DOMESTIC_UPDATE_BY_PRODUCT_ID_REQUEST,
     });
 
-    const { data } = await axios.put(`/api/avail-domestic/product/${id}`);
+    const { data } = await axios.put(`/api/avail-domestic/${id}`,{
+      unitOfMessure,
+      sellingPrice,
+    });
 
     dispatch({
       type: DOMESTIC_UPDATE_BY_PRODUCT_ID_SUCCESS,

@@ -1,6 +1,5 @@
 import React from "react";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
-import IconButton from "@material-ui/core/IconButton";
 import $ from "jquery";
 const ZipCodeTracker = () => {
   const getCurrentLocationZipCode = () => {
@@ -48,7 +47,7 @@ const ZipCodeTracker = () => {
         }}
       />
       <div id="zip_code" style={{ fontSize: "0.85rem" }}>
-        Search city
+        Zipcode ?
       </div>
     </div>
   );

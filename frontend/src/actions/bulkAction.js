@@ -70,7 +70,6 @@ export const createBulkByProductId = (product,unitOfMessure,sellingPrice) => asy
       },
     };
 
-    // const { data } = await axios.post(`/api/avail-bulk/product/${id}`, {});
     const { data } = await axios.post(`/api/avail-bulk`,
       { product,unitOfMessure, sellingPrice },
       config

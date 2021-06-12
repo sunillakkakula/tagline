@@ -59,11 +59,11 @@ export const domesticDeleteByProductIdReducer = (state = {}, action) => {
 export const domesticCreateByProductIdReducer = (state = {}, action) => {
   switch (action.type) {
     case DOMESTIC_CREATE_BY_PRODUCT_ID_REQUEST:
-      return { loading: true };
+      return { loading_create: true };
     case DOMESTIC_CREATE_BY_PRODUCT_ID_SUCCESS:
-      return { loading: false, success: true, domestic: action.payload };
+      return { loading_create: false, success_create: true, domestic: action.payload };
     case DOMESTIC_CREATE_BY_PRODUCT_ID_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading_create: false, error_create: action.payload };
 
     default:
       return state;

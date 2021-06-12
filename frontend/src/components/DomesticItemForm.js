@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
@@ -8,7 +8,7 @@ import GridContainer from "./Grid/GridContainer.js";
 import Card from "./Card/Card.js";
 import CardHeader from "./Card/CardHeader.js";
 import CardBody from "./Card/CardBody.js";
-import { createBulkByProductId, listBulkByProductId } from "../actions/bulkAction";
+import { createDomesticByProductId} from "../actions/domesticAction";
 import { listProductDetailsByProductId} from "../actions/productAction";
 const useStyles = makeStyles(theme => ({
   root: { 
@@ -31,13 +31,13 @@ const schema = {
   },
 };
 
-const BulkItemForm = (props) => {
+const DomesticItemForm = (props) => {
   const classes = useStyles();
   const productId = props.product;
   let history = props.history;
 
   const dispatch = useDispatch();
-  console.log("ProductId  from BulkItemForm Create :==>  "+productId)
+  console.log("ProductId  from DomesticItemForm Create :==>  "+productId)
   const [formState, setFormState] = React.useState({
     isValid: false,
     values: {},
@@ -48,17 +48,7 @@ const BulkItemForm = (props) => {
   const productDetailsByProductId = useSelector(
     (state) => state.productDetailsByProductId
   );
-
   
-  const bulkCreateByProductId = useSelector(
-    (state) => state.bulkCreateByProductId
-  );
-  
-  const [loading_create,success_create,bulk] =  bulkCreateByProductId;
- if (bulkCreateByProductId && bulkCreateByProductId.success_create) {
-      history.push(`/admin/product-bulk/${productId}`);
-  }
-
   console.log("productDetailsByProductId ")
   console.log(productDetailsByProductId)
 
@@ -81,9 +71,16 @@ const BulkItemForm = (props) => {
       errors: errors || {},
     }));
   }, [formState.values]);
-
   
-
+  const domesticCreateByProductId = useSelector(
+    (state) => state.domesticCreateByProductId
+  );
+ 
+  if(domesticCreateByProductId && domesticCreateByProductId.success_create){
+    console.log("Success Response to redirecting to Domestic List");
+        history.push(`/admin/product-domestic/${productId}`);
+  }
+ 
   const handleChange = event => {
     event.persist();
 
@@ -108,7 +105,7 @@ const BulkItemForm = (props) => {
 
     if (formState.isValid) {
       console.log(formState.values)
-      dispatch(createBulkByProductId(product._id,formState.values.unitOfMessure , formState.values.sellingPrice));
+      dispatch(createDomesticByProductId(product._id,formState.values.unitOfMessure , formState.values.sellingPrice));
     }
 
     setFormState(formState => ({
@@ -122,6 +119,9 @@ const BulkItemForm = (props) => {
   
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
+  
+ 
+  
 
   return (
     <div className={classes.root}>
@@ -129,7 +129,7 @@ const BulkItemForm = (props) => {
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}> Bulk Item Entry </h4>
+                <h4 className={classes.cardTitleWhite}> Domestic Item Entry </h4>
               </CardHeader>
               <CardBody>
       <form name="password-reset-form" method="post" onSubmit={handleSubmit}>
@@ -219,4 +219,4 @@ const BulkItemForm = (props) => {
   );
 };
 
-export default BulkItemForm;
+export default DomesticItemForm;

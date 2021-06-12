@@ -58,6 +58,7 @@ const remove = asyncHandler(async (req, res) => {
 // @route   POST /api/categorys
 // @access  Private/Admin
 const create = asyncHandler(async (req, res) => {
+  console.log("EXEC CREATE IN AVAIL DOMESTIC CONTROLLER")
   const {} = req.body;
   const {
     unitOfMessure,
@@ -67,7 +68,12 @@ const create = asyncHandler(async (req, res) => {
     mrp,
     product,
   } = req.body;
-
+  console.log("EXEC CREATE IN AVAIL DOMESTIC CONTROLLER", unitOfMessure,
+  qty,
+  unitPrice,
+  sellingPrice,
+  mrp,
+  product);
   const availableInDomestic = new AvailableInDomestic({
     unitOfMessure,
     qty,
@@ -85,27 +91,33 @@ const create = asyncHandler(async (req, res) => {
 // @route   PUT /api/categorys/:id
 // @access  Private/Admin
 const update = asyncHandler(async (req, res) => {
+  console.error("EXEC update from domestic Controller")
   const {
     unitOfMessure,
-    qty,
-    unitPrice,
     sellingPrice,
-    mrp,
-    product,
+    // qty,
+    // unitPrice,
+    
+    // mrp,
+    // product,
   } = req.body;
+  
+  console.log("UPDATE DOMESTIC "+sellingPrice)
   const availableInDomestic = await AvailableInDomestic.findById(req.params.id);
-
+  console.log("FOUND DOMESTIC RECORD "+availableInDomestic +"Domestic ID : "+req.params.id)
   if (availableInDomestic) {
     availableInDomestic.unitOfMessure = unitOfMessure;
-    availableInDomestic.qty = qty;
-    availableInDomestic.unitPrice = unitPrice;
     availableInDomestic.sellingPrice = sellingPrice;
-    availableInDomestic.mrp = mrp;
-    availableInDomestic.product = product;
+    // availableInDomestic.qty = qty;
+    // availableInDomestic.unitPrice = unitPrice;
+    // availableInDomestic.sellingPrice = sellingPrice;
+    // availableInDomestic.mrp = mrp;
+    // availableInDomestic.product = product;
 
     const updatedAvailableInDomestic = await availableInDomestic.save();
     res.json(updatedAvailableInDomestic);
   } else {
+    console.log("NOT FOUND DOMESTIC RECORD "+availableInDomestic)
     res.status(404);
     throw new Error("Available In Domestic not found");
   }
@@ -119,7 +131,7 @@ const getAllByProductId = asyncHandler(async (req, res) => {
   console.log(productId);
   const availableInDomestics = await AvailableInDomestic.find();
   const filteredDomestic = availableInDomestics.filter(
-    (domestic) => domestic.product === productId
+    (domestic) => domestic.product+""  === productId
   );
   console.log(filteredDomestic);
   if (filteredDomestic) {

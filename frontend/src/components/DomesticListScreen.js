@@ -122,13 +122,14 @@ const DomesticListScreen = ({ history, match }) => {
 
   const createItemHandler = (product) => {
     console.log("Before Push  product :"+product)
-    history.push('/admin/bulk/new/'+product);
+    history.push('/admin/domestic/new/'+product);
   };
 
   const submitHandler=()=>{
     console.log("EXEC submitHandler")
+    // debugger;
     if(action==="edit"){
-    console.log(editableRecord)
+    console.log("Submit Handler of List Screen Dometsic with "+editableRecord)
     dispatch(updateDomesticByProductId(editableRecord._id, editableRecord.unitOfMessure, editableRecord.sellingPrice));
     setOpen(false);
     setEditableRecord({})
@@ -211,7 +212,7 @@ const DomesticListScreen = ({ history, match }) => {
             <GridItem xs={12} sm={12} md={12}>
               <Card>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitleWhite}>Edit Bulk Record </h4>
+                  <h4 className={classes.cardTitleWhite}>Edit domestic Record </h4>
                 </CardHeader>
                 <CardBody>
                   <form onSubmit={submitHandler}>

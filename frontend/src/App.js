@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./components/Theme";
 import Header from "./components/Header";
+import CustomHeader from "./components/CustomHeader";
 import CategoryWiseProducts from "./components/CategoryWiseProducts";
 import Contact from "./components/Contact";
 import AboutUs from "./components/AboutUs";
@@ -40,6 +41,7 @@ import CategoryEditScreen from "./components/CategoryEditScreen";
 import ProductCreate from "./components/ProductCreate";
 import BulkListScreen from "./components/BulkListScreen";
 import DomesticListScreen from "./components/DomesticListScreen";
+import DomesticItemCreate from "./components/DomesticItemCreate";
 
 function App() {
   return (
@@ -50,7 +52,8 @@ function App() {
         */}
         {/* <CategoriesSubMenu /> */}
         {/* <MuiHeader /> */}
-        <MuiHeader />
+        <CustomHeader/>
+        {/* <MuiHeader /> */}
         {/* <SubMenuHeader /> */}
         {/* <CategoriesSubMenuVer2 /> */}
         <main className="py-0">
@@ -117,6 +120,12 @@ function App() {
               component={BulkItemCreate}
               exact
             />
+            <Route
+              path="/admin/domestic/new/:id"
+              component={DomesticItemCreate}
+              exact
+            />
+
             <Route path="/admin/orders" component={OrderListScreen} exact />
             <Route
               path="/search/:keyword"

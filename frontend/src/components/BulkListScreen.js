@@ -15,13 +15,11 @@ import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import Dialog from '@material-ui/core/Dialog'
 import ConfirmDialog from './ConfirmDialog'
 import DialogContent from '@material-ui/core/DialogContent'
-import { updateCategory ,deleteCategory,listCategories} from "../actions/categoryAction";
+import { deleteCategory} from "../actions/categoryAction";
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import {
-  createBulkByProductId,
   listBulkByProductId,
-  deleteBulkByProductId,
   updateBulkByProductId
 } from "../actions/bulkAction";
 

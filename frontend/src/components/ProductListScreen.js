@@ -266,6 +266,7 @@ const ProductListScreen = ({ history, match }) => {
     history.push(`/admin/product-settings/${id}`);
   };
   const handleDomestic = (id) => {
+    console.log("Domestic :ProductID : "+id);
     history.push(`/admin/product-domestic/${id}`);
   };
   const handleBulk = (id) => {

@@ -3,8 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import validate from 'validate.js';
 import { useDispatch, useSelector } from "react-redux";
-import { createCategory } from "../actions/categoryAction";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import GridItem from "./Grid/GridItem.js";
 import GridContainer from "./Grid/GridContainer.js";
 import Card from "./Card/Card.js";

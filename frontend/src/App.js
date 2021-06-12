@@ -39,6 +39,7 @@ import SubCategoryListScreen from "./components/SubCategoryListScreen";
 import CategoryEditScreen from "./components/CategoryEditScreen";
 import ProductCreate from "./components/ProductCreate";
 import BulkListScreen from "./components/BulkListScreen";
+import DomesticListScreen from "./components/DomesticListScreen";
 
 function App() {
   return (
@@ -149,8 +150,8 @@ function App() {
               exact
             />
             <Route
-              path="/admin/product-domestic/:productId"
-              component={BulkListScreen}
+              path="/admin/product-domestic/:id"
+              component={DomesticListScreen}
               exact
             />
             <Route

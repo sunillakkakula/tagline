@@ -42,6 +42,7 @@ import ProductCreate from "./components/ProductCreate";
 import BulkListScreen from "./components/BulkListScreen";
 import DomesticListScreen from "./components/DomesticListScreen";
 import DomesticItemCreate from "./components/DomesticItemCreate";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
             <Route path="/product/:productId" component={ProductScreen} exact />
             <Route path="/cart/:id?" component={CartLayoutScreen} />
             <Route path="/showcart" component={CartLayoutScreen} />
+            <Route path="/landing" component={LandingPage} />
             {/* <Route path="/" component={CartLayoutScreen} /> */}
             <Route path="/admin/users" component={UserListScreen} exact />
             <Route

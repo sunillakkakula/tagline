@@ -6,7 +6,6 @@ import { listProductDetailsByProductId } from "../actions/productAction";
 import { listBulkByProductId } from "../actions/bulkAction";
 import { listDomesticByProductId } from "../actions/domesticAction";
 import { makeStyles } from "@material-ui/core/styles";
-import ReactSelectMaterialUi from "react-select-material-ui";
 import {
   Grid,
   Button,
@@ -15,12 +14,13 @@ import {
   Paper,
   Typography,
   Divider,
+  Card,
 } from "@material-ui/core";
 import rupeeSvgIcon from "../assets/images/currency-inr.svg";
-import { Link } from "react-router-dom";
 import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
 import CustomBackdropSpinner from "./CustomBackdropSpinner";
+import BackHomeNavigator from "./BackHomeNavigator";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,9 +90,21 @@ const ProductScreen = ({ history, match }) => {
       return i.toString();
     });
 
-  const handleOrderTypeChange = (value) => {
-    console.log("Order Type Changed :--> " + value);
-    setOrderTypeSelected(value);
+  const renderQuantityOptions = Array(100)
+  .fill()
+  .map((_, i) => {
+    // return i.toString();
+    return (
+      <MenuItem key={i} value={i.toString()}>
+        {i.toString()}
+      </MenuItem>
+    );
+  });  
+
+  const handleOrderTypeChange = (e) => {
+    console.log("Order Type Changed :--> " + e.target.value);
+    console.log( e.target.value);
+    setOrderTypeSelected( e.target.value);
   };
   const calculateSellingPrice = (qtySelected) => {
     console.log("Exc calculateSellingPrice for QTY : " + qtySelected);
@@ -133,6 +145,17 @@ const ProductScreen = ({ history, match }) => {
   const classes = useStyles();
   const [uom, setUom] = useState(() => "None");
   // const [disableFlag, setDisableFlag] = useState(Boolean(true));
+
+  const renderOrderTypeOptions = () => {
+    console.log("*** Exec renderOrderTypeOptionsOrder Type OPtions****");
+    return orderTypeOptions.map((orderTypeItem, i) => {
+      return (
+            <MenuItem key={i} value={orderTypeItem}>
+              {orderTypeItem}
+            </MenuItem>
+          );
+      });
+    }
 
   const renderUomOptions = () => {
     console.log("*** Exec renderUomOptions --> Reading product ****");
@@ -192,34 +215,19 @@ const ProductScreen = ({ history, match }) => {
   return (
     <>
     {loading && <CustomBackdropSpinner />}
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Link
-            className="btn"
-            size="small"
-            variant="contained"
-            type="submit"
-            color="primary"
-            to="/"
-            style={{
-              color: "white",
-              backgroundColor: "#26A541",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              align: "center",
-              width: "9rem",
-            }}
-          >
-            Go to Groceries
-          </Link>
-        </GridItem>
-      </GridContainer>
-      {/* {console.log("Product : " + product)} */}
       {!product ? (
         <Message />
       ) : (
         <div>
-          <Grid container spacing={1}>
+          <GridContainer style={{marginBottom:"2rem"}}>
+            <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                <BackHomeNavigator history={history} />
+              </Card>
+            </GridItem>
+          </GridContainer>
+          
+          <Grid container spacing={1} style={{marginTop:"1rem"}}>
             <Grid item xs={6}>
               <Paper className={classes.paper}>
                 <Grid container spacing={2}>
@@ -236,12 +244,9 @@ const ProductScreen = ({ history, match }) => {
                             Order Type
                           </Grid>
                           <Grid item xs={6} align="center">
-                            <ReactSelectMaterialUi
-                              style={{ width: "10rem" }}
-                              value="bulk"
-                              options={orderTypeOptions}
-                              onChange={handleOrderTypeChange}
-                            />
+                            <Select value={orderTypeSelected} onChange={handleOrderTypeChange} options={orderTypeOptions}>
+                              {renderOrderTypeOptions()}
+                            </Select>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -264,12 +269,9 @@ const ProductScreen = ({ history, match }) => {
                             Quantity
                           </Grid>
                           <Grid item xs={6} align="center">
-                            <ReactSelectMaterialUi
-                              style={{ width: "10rem" }}
-                              value={quantitySelected}
-                              options={options}
-                              onChange={handleChangeCounter}
-                            />
+                            <Select value={quantitySelected} onChange={handleChangeCounter}>
+                              {renderQuantityOptions}
+                            </Select>
                           </Grid>
                         </Grid>
                       </Grid>

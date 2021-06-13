@@ -168,28 +168,7 @@ const ShippingScreen = ({ history }) => {
 
   return (
     <>
-      {/* <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Link
-            className="btn"
-            size="small"
-            variant="contained"
-            type="submit"
-            color="primary"
-            to="/"
-            style={{
-              color: "white",
-              backgroundColor: "#26A541",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              align: "center",
-              width: "9rem",
-            }}
-          >
-            Go to Groceries
-          </Link>
-        </GridItem>
-      </GridContainer> */}
+     
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Card>

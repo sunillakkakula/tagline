@@ -12,6 +12,7 @@ import {
   Grid,
   Typography,
   Icon,
+  Card,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Divider } from "@material-ui/core";
@@ -20,6 +21,7 @@ import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
 import StepperScreen from "./StepperScreen";
 import CustomBackdropSpinner from "./CustomBackdropSpinner";
+import BackHomeNavigator from "./BackHomeNavigator";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,7 +85,7 @@ const PlaceOrderScreen = ({ history }) => {
   ).toFixed(2);
 
   const orderCreate = useSelector((state) => state.orderCreate);
-  const { loading,order, success, error } = orderCreate;
+  const { order, success, error } = orderCreate;
 
   useEffect(() => {
     if (success) {
@@ -119,84 +121,19 @@ const PlaceOrderScreen = ({ history }) => {
 
   return (
     <>
-     {loading && <CustomBackdropSpinner />}
-      <GridContainer>
+     {order && <CustomBackdropSpinner />}
+     <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <Link
-            className="btn"
-            size="small"
-            variant="contained"
-            type="submit"
-            color="primary"
-            to="/"
-            style={{
-              color: "white",
-              backgroundColor: "#26A541",
-              // marginRight: "5rem",
-              // marginLeft: "0.75rem",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              align: "center",
-              width: "9rem",
-            }}
-          >
-            Go to Groceries
-          </Link>
+          <Card>
+            <BackHomeNavigator history={history} />
+          </Card>
         </GridItem>
       </GridContainer>
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={8}>
           <Paper className={classes.paper}>
             <form onSubmit={placeOrderHandler}>
-              {/* <Grid container>
-                <Grid item xs={12}>
-                  <Typography variant="h6">Shipping Details</Typography>
-                  <Divider />
-                </Grid>
-
-                <Grid item xs={12} style={{ margin: ".5rem" }}>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <Grid container>
-                        <Grid item xs={3}>
-                          <Typography variant="body1">Address</Typography>
-                        </Grid>
-                        <Grid item xs={9}>
-                          <Typography variant="body1">
-                            {cart.shippingAddress.address}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Grid container>
-                        <Grid item xs={3}>
-                          <Typography variant="body1">City</Typography>
-                        </Grid>
-                        <Grid item xs={9}>
-                          <Typography variant="body1">
-                            {" "}
-                            {cart.shippingAddress.city}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Grid container>
-                        <Grid item xs={3}>
-                          <Typography variant="body1">Postal Code</Typography>
-                        </Grid>
-                        <Grid item xs={9}>
-                          <Typography variant="body1">
-                            {cart.shippingAddress.postalCode}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Divider /> */}
+              
               <Grid container>
                 <Grid item xs={12}>
                   {cart.cartItems.length === 0 ? (

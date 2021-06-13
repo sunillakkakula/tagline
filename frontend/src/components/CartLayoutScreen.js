@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
   removeFromCart,
-  editCartItems,
 } from "../actions/cartAction";
 import rupeeSvgIcon from "../assets/images/currency-inr.svg";
 import {
@@ -25,8 +24,42 @@ import GridItem from "../components/Grid/GridItem";
 import Card from "./Card/Card";
 import CardHeader from "./Card/CardHeader";
 import CardBody from "./Card/CardBody";
+import BackHomeNavigator from "./BackHomeNavigator";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  mainContainer: {
+    marginTop: "5em",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "3em"
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "2em"
+    }
+  },
+  heroTextContainer: {
+    minWidth: "21em",
+    maxWidth: "50em",
+    marginLeft: "1em",
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 0,
+      maxWidth: "30em",
+      marginTop: "2em",
+
+    }
+  },
+  animation: {
+    maxWidth: "50em",
+    minWidth: "21em",
+    // marginTop: "2em",
+    marginLeft: "10%",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "30em",
+      marginTop: "2em",
+    }
+  },
   container: {
     display: "grid",
     gridTemplateColumns: "repeat(12, 1fr)",
@@ -42,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    whiteSpace: "nowrap",
-    marginBottom: theme.spacing(1),
+    // whiteSpace: "nowrap",
+    // marginBottom: theme.spacing(1),
   },
   childPaper: {
     padding: theme.spacing(1),
@@ -57,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
   },
   imageIcon: {
-    height: "60%",
+    height: "1rem",
   },
   iconRoot: {
     textAlign: "center",
@@ -126,16 +159,6 @@ export default function CartLayoutScreen({ match, location, history }) {
         break;
     }
   });
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    console.log("Clicked handleClickOpen" + order);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
@@ -149,10 +172,6 @@ export default function CartLayoutScreen({ match, location, history }) {
     console.log("Id :" + id);
     dispatch(removeFromCart(id, indx));
   };
-  const editCartHandler = (id) => {
-    console.log("Editing " + id);
-    dispatch(editCartItems(id));
-  };
 
   const checkoutHandler = () => {
     history.push("/login?redirect=shipping");
@@ -160,26 +179,11 @@ export default function CartLayoutScreen({ match, location, history }) {
 
   return (
     <div>
-      <GridContainer>
+      <GridContainer style={{ marginBottom: "2rem" }}>
         <GridItem xs={12} sm={12} md={12}>
-          <Link
-            className="btn"
-            size="small"
-            variant="contained"
-            type="submit"
-            color="primary"
-            to="/"
-            style={{
-              color: "white",
-              backgroundColor: "#26A541",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              align: "center",
-              width: "9rem",
-            }}
-          >
-            Go to Groceries
-          </Link>
+          <Card>
+            <BackHomeNavigator history={history} />
+          </Card>
         </GridItem>
       </GridContainer>
       <GridContainer>
@@ -192,133 +196,128 @@ export default function CartLayoutScreen({ match, location, history }) {
               {cartItems.length === 0 ? (
                 <div>Empty Cart</div>
               ) : (
-                <Grid container spacing={1}>
-                  <Grid item xs={8}>
-                    <Paper className={classes.childPaper}>
-                      {cartItems.map((item, index) => (
-                        <>
-                          <Grid
-                            container
-                            spacing={1}
-                            key={item.id + "-" + index}
-                          >
-                            <Grid item xs={2}>
-                              <img
-                                alt="Staples"
-                                style={{
-                                  height: "3.5rem",
-                                  width: "3.5rem",
-                                }}
-                                src={item.imageUrl}
-                              />
-                            </Grid>
 
-                            <Grid item xs={8}>
-                              <Grid container spacing={1}>
-                                <Grid item xs={12} variant="alignLeft">
-                                  <Typography variant="body1">
-                                    {item.name}
-                                  </Typography>
+                <Grid container direction="column" className={classes.mainContainer}>
+                  <Grid item>
+                    <Grid container justify="flex-end" alignItems="center" direction="row">
+                      <Grid sm item className={classes.heroTextContainer}>
+                        <Paper className={classes.paper}>
+                          {cartItems.map((item, index) => (
+                            <>
+                              <Grid
+                                container
+                                key={item.id + "-" + index}
+                              >
+                                <Grid item xs={2}>
+                                  <img
+                                    alt="Staples"
+                                    style={{
+                                      height: "3.5rem",
+                                      width: "3.5rem",
+                                    }}
+                                    src={item.imageUrl}
+                                  />
                                 </Grid>
-                                <Grid item xs={12}>
-                                  <Grid container spacing={1}>
-                                    <Grid item xs={4}>
-                                      <Typography variant="body1">
-                                        <Icon
-                                          classes={{ root: classes.iconRoot }}
-                                        >
-                                          <img
-                                            alt="curency inr"
-                                            src={rupeeSvgIcon}
-                                            className={classes.imageIcon}
-                                          />
-                                        </Icon>
-                                        {item.unitPrice}
-                                      </Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                      <Typography variant="body2">
-                                        UOM : {item.uom}
-                                      </Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                      <Typography variant="body1">
-                                        Qty :{item.quantityOrdered}
-                                      </Typography>
-                                    </Grid>
-                                  </Grid>
+
+                                <Grid item xs={8} >
+                                      <Grid container >
+                                        <Grid item xs={6} >
+                                          <Typography variant="body1" align="center">
+                                            {item.name}
+                                          </Typography>
+                                          <Typography variant="body2" align="center">
+                                            <Icon
+                                              classes={{ root: classes.iconRoot }}
+                                            >
+                                              <img
+                                                alt="curency inr"
+                                                src={rupeeSvgIcon}
+                                                className={classes.imageIcon}
+                                              />
+                                            </Icon>
+                                            {item.unitPrice}
+                                          </Typography>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                          <Typography variant="body2">
+                                            UOM : {item.uom}
+                                          </Typography>
+                                          <Typography variant="body2">
+                                            QTY :{item.quantityOrdered}
+                                          </Typography>
+                                        </Grid>
+                                      </Grid>
+                                    {/* </Grid> */}
+                                </Grid>
+                                <Grid item xs={2}>
+                                  <IconButton
+                                    aria-label="delete"
+                                    onClick={() =>
+                                      removeFromCartHandler(item.product, index)
+                                    }
+                                  >
+                                    <DeleteOutline />
+                                  </IconButton>
                                 </Grid>
                               </Grid>
-                            </Grid>
-                            <Grid item xs={1}>
-                             
-                            </Grid>
-                            <Grid item xs={1}>
-                              <IconButton
-                                aria-label="delete"
-                                onClick={() =>
-                                  removeFromCartHandler(item.product, index)
-                                }
+                              <Divider />
+                            </>
+                          ))}
+                        </Paper>
+                      </Grid>
+                      <Grid sm item className={classes.animation}>
+                        <Paper className={classes.paper}>
+                          <Grid container spacing={1} data-aos="fade-up">
+                            <Grid item xs={12}>
+                              <Typography
+                                variant="h6"
+                                color="primary"
+                                align={isMd ? "left" : "center"}
                               >
-                                <DeleteOutline />
-                              </IconButton>
+                                Subtotal (
+                                {cartItems.reduce(
+                                  (acc, item) => acc + item.quantityOrdered,
+                                  0
+                                )}
+                                ) items
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Icon classes={{ root: classes.iconRoot }}>
+                                <img
+                                  alt="curency inr"
+                                  src={rupeeSvgIcon}
+                                  className={classes.imageIcon}
+                                />
+                              </Icon>
+                              {cartItems
+                                .reduce(
+                                  (acc, item) =>
+                                    acc + item.quantityOrdered * item.unitPrice,
+                                  0
+                                )
+                                .toFixed(2)}
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Button
+                                disabled={cartItems.length === 0}
+                                size="small"
+                                variant="contained"
+                                type="submit"
+                                color="primary"
+                                onClick={checkoutHandler}
+                              >
+                                Proceed To Checkout
+                              </Button>
                             </Grid>
                           </Grid>
-                          <Divider />
-                        </>
-                      ))}
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Paper className={classes.paper}>
-                      <Grid container spacing={1} data-aos="fade-up">
-                        <Grid item xs={12}>
-                          <Typography
-                            variant="h6"
-                            color="primary"
-                            align={isMd ? "left" : "center"}
-                          >
-                            Subtotal (
-                            {cartItems.reduce(
-                              (acc, item) => acc + item.quantityOrdered,
-                              0
-                            )}
-                            ) items
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Icon classes={{ root: classes.iconRoot }}>
-                            <img
-                              alt="curency inr"
-                              src={rupeeSvgIcon}
-                              className={classes.imageIcon}
-                            />
-                          </Icon>
-                          {cartItems
-                            .reduce(
-                              (acc, item) =>
-                                acc + item.quantityOrdered * item.unitPrice,
-                              0
-                            )
-                            .toFixed(2)}
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Button
-                            disabled={cartItems.length === 0}
-                            size="small"
-                            variant="contained"
-                            type="submit"
-                            color="primary"
-                            onClick={checkoutHandler}
-                          >
-                            Proceed To Checkout
-                          </Button>
-                        </Grid>
+                        </Paper>
                       </Grid>
-                    </Paper>
+                    </Grid>
                   </Grid>
                 </Grid>
-              )}
+              )
+              }
             </CardBody>
           </Card>
         </GridItem>

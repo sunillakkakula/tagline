@@ -92,11 +92,11 @@ const PaymentScreen = ({ history }) => {
     <>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <BackHomeNavigator history={history}/>
-        </Card>
+          <Card>
+            <BackHomeNavigator history={history} />
+          </Card>
         </GridItem>
-        </GridContainer>
+      </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <StepperScreen currentStep={1} />

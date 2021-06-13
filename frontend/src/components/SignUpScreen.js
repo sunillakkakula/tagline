@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "./Message";
 import Spinner from "./controls/Spinner";
-import { register } from "../actions/userAction";
+import { register } from "../actions/userAction"; 
 import { Button, Grid, Paper, TextField, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({

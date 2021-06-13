@@ -26,6 +26,36 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  mainContainer: {
+    marginTop: "5em",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "3em"
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "2em"
+    }
+  },
+  heroTextContainer: {
+    minWidth: "21em",
+    maxWidth: "50em",
+    marginLeft: "1em",
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 0,
+      maxWidth: "30em",
+      marginTop: "2em",
+
+    }
+  },
+  animation: {
+    maxWidth: "50em",
+    minWidth: "21em",
+    // marginTop: "2em",
+    marginLeft: "10%",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "30em",
+      marginTop: "2em",
+    }
+  },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
@@ -75,7 +105,7 @@ const ProductScreen = ({ history, match }) => {
     (state) => state.domesticListByProductId
   );
 
-  let { loading,bulk } = bulkListByProductId;
+  let { loading, bulk } = bulkListByProductId;
   let { domestic } = domesticListByProductId;
 
   const [quantitySelected, setQuantitySelected] = useState(() => {
@@ -84,27 +114,20 @@ const ProductScreen = ({ history, match }) => {
 
   const orderTypeOptions = ["Select", "Bulk", "Domestic"];
 
-  const options = Array(100)
+  const renderQuantityOptions = Array(100)
     .fill()
     .map((_, i) => {
-      return i.toString();
+      return (
+        <MenuItem key={i} value={i.toString()}>
+          {i.toString()}
+        </MenuItem>
+      );
     });
-
-  const renderQuantityOptions = Array(100)
-  .fill()
-  .map((_, i) => {
-    // return i.toString();
-    return (
-      <MenuItem key={i} value={i.toString()}>
-        {i.toString()}
-      </MenuItem>
-    );
-  });  
 
   const handleOrderTypeChange = (e) => {
     console.log("Order Type Changed :--> " + e.target.value);
-    console.log( e.target.value);
-    setOrderTypeSelected( e.target.value);
+    console.log(e.target.value);
+    setOrderTypeSelected(e.target.value);
   };
   const calculateSellingPrice = (qtySelected) => {
     console.log("Exc calculateSellingPrice for QTY : " + qtySelected);
@@ -114,9 +137,9 @@ const ProductScreen = ({ history, match }) => {
         .map((matchedRec) => {
           console.log(
             "matchedRec.unitPrice * counter : matchedRec.unitPrice -> " +
-              matchedRec.unitPrice +
-              " , qtySelected : -> " +
-              qtySelected
+            matchedRec.unitPrice +
+            " , qtySelected : -> " +
+            qtySelected
           );
           console.log(
             "Result of CALC : -> " + matchedRec.unitPrice * qtySelected
@@ -129,9 +152,9 @@ const ProductScreen = ({ history, match }) => {
         .map((matchedRec) => {
           console.log(
             "matchedRec.unitPrice * counter : matchedRec.unitPrice -> " +
-              matchedRec.unitPrice +
-              " , qtySelected : -> " +
-              qtySelected
+            matchedRec.unitPrice +
+            " , qtySelected : -> " +
+            qtySelected
           );
           console.log("Result of CALC" + matchedRec.unitPrice * qtySelected);
           return matchedRec.unitPrice * qtySelected;
@@ -144,18 +167,17 @@ const ProductScreen = ({ history, match }) => {
 
   const classes = useStyles();
   const [uom, setUom] = useState(() => "None");
-  // const [disableFlag, setDisableFlag] = useState(Boolean(true));
 
   const renderOrderTypeOptions = () => {
     console.log("*** Exec renderOrderTypeOptionsOrder Type OPtions****");
     return orderTypeOptions.map((orderTypeItem, i) => {
       return (
-            <MenuItem key={i} value={orderTypeItem}>
-              {orderTypeItem}
-            </MenuItem>
-          );
-      });
-    }
+        <MenuItem key={i} value={orderTypeItem}>
+          {orderTypeItem}
+        </MenuItem>
+      );
+    });
+  }
 
   const renderUomOptions = () => {
     console.log("*** Exec renderUomOptions --> Reading product ****");
@@ -201,12 +223,12 @@ const ProductScreen = ({ history, match }) => {
     setQuantitySelected(0);
     setCalculatedSellingPrice(0.0);
   };
-  const handleChangeCounter = (value) => {
-    console.log("value : " + value);
-    if (value !== "0") {
+  const handleChangeCounter = (event) => {
+    console.log("value : " + event.target.value);
+    if (event.target.value !== "0") {
       console.log("Quantity selected is NOT equal 0");
-      setQuantitySelected(value);
-      const calculatedPrice = calculateSellingPrice(value);
+      setQuantitySelected(event.target.value);
+      const calculatedPrice = calculateSellingPrice(event.target.value);
       console.log(calculatedPrice);
       setCalculatedSellingPrice(calculatedPrice);
     }
@@ -214,138 +236,144 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <>
-    {loading && <CustomBackdropSpinner />}
+      {loading && <CustomBackdropSpinner />}
       {!product ? (
         <Message />
       ) : (
         <div>
-          <GridContainer style={{marginBottom:"2rem"}}>
+          <GridContainer style={{ marginBottom: "2rem" }}>
             <GridItem xs={12} sm={12} md={12}>
               <Card>
                 <BackHomeNavigator history={history} />
               </Card>
             </GridItem>
           </GridContainer>
-          
-          <Grid container spacing={1} style={{marginTop:"1rem"}}>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography variant="h6">{product.description}</Typography>
-                    <Divider />
-                  </Grid>
-
-                  <Grid item xs={12}>
-                    <Grid container spacing={2} data-aos="fade-up">
+          {/* START OF MUI RESPONSIVE  */}
+          <Grid container direction="column" className={classes.mainContainer}>
+            <Grid item>
+              <Grid container justify="flex-end" alignItems="center" direction="row">
+                <Grid sm item className={classes.heroTextContainer}>
+                  <Paper className={classes.paper}>
+                    <Grid container spacing={2}>
                       <Grid item xs={12}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={6} align="left">
-                            Order Type
-                          </Grid>
-                          <Grid item xs={6} align="center">
-                            <Select value={orderTypeSelected} onChange={handleOrderTypeChange} options={orderTypeOptions}>
-                              {renderOrderTypeOptions()}
-                            </Select>
-                          </Grid>
-                        </Grid>
+                        <Typography variant="h6">{product.description}</Typography>
+                        <Divider />
                       </Grid>
 
                       <Grid item xs={12}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={6} align="left">
-                            Unit Of Messure
+                        <Grid container spacing={2} data-aos="fade-up">
+                          <Grid item xs={12}>
+                            <Grid container spacing={1}>
+                              <Grid item xs={6} align="left">
+                                Order Type
+                              </Grid>
+                              <Grid item xs={6} align="center">
+                                <Select value={orderTypeSelected} onChange={handleOrderTypeChange} options={orderTypeOptions}>
+                                  {renderOrderTypeOptions()}
+                                </Select>
+                              </Grid>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={6} align="center">
-                            <Select value={uom} onChange={handleChangeUom}>
-                              {renderUomOptions()}
-                            </Select>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={6} align="left">
-                            Quantity
-                          </Grid>
-                          <Grid item xs={6} align="center">
-                            <Select value={quantitySelected} onChange={handleChangeCounter}>
-                              {renderQuantityOptions}
-                            </Select>
-                          </Grid>
-                        </Grid>
-                      </Grid>
 
-                      <Grid item xs={12}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={6} align="left">
-                            Price
+                          <Grid item xs={12}>
+                            <Grid container spacing={1}>
+                              <Grid item xs={6} align="left">
+                                Unit Of Messure
+                              </Grid>
+                              <Grid item xs={6} align="center">
+                                <Select value={uom} onChange={handleChangeUom}>
+                                  {renderUomOptions()}
+                                </Select>
+                              </Grid>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={6} align="center">
-                            <Icon classes={{ root: classes.iconRoot }}>
-                              <img
-                                alt="curency inr"
-                                src={rupeeSvgIcon}
-                                className={classes.imageIcon}
-                              />
-                            </Icon>{" "}
-                            {calculatedSellingPrice
-                              ? calculatedSellingPrice
-                              : 0.0}
+                          <Grid item xs={12}>
+                            <Grid container spacing={1}>
+                              <Grid item xs={6} align="left">
+                                Quantity
+                              </Grid>
+                              <Grid item xs={6} align="center">
+                                <Select value={quantitySelected} onChange={handleChangeCounter}>
+                                  {renderQuantityOptions}
+                                </Select>
+                              </Grid>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={6} align="left">
-                            Availability Status
-                          </Grid>
-                          <Grid item xs={6} align="center">
-                            {product.countInStock > 0 ? (
-                              <span style={{ color: "green", fontWeight: 500 }}>
-                                IN STOCK
-                              </span>
-                            ) : (
-                              <span style={{ color: "red", fontWeight: 500 }}>
-                                OUT OF STOCK
-                              </span>
-                            )}
-                            {/* {product.price} */}
-                          </Grid>
-                        </Grid>
-                      </Grid>
 
-                      <Grid item xs={12} align="center">
-                        <Button
-                          disabled={
-                            product.countInStock === 0 ||
-                            calculatedSellingPrice === 0
-                          }
-                          align="center"
-                          size="small"
-                          variant="contained"
-                          type="submit"
-                          color="primary"
-                          onClick={addToCartHandler}
-                        >
-                          Add To Cart
-                        </Button>
+                          <Grid item xs={12}>
+                            <Grid container spacing={1}>
+                              <Grid item xs={6} align="left">
+                                Price
+                              </Grid>
+                              <Grid item xs={6} align="center">
+                                <Icon classes={{ root: classes.iconRoot }}>
+                                  <img
+                                    alt="curency inr"
+                                    src={rupeeSvgIcon}
+                                    className={classes.imageIcon}
+                                  />
+                                </Icon>{" "}
+                                {calculatedSellingPrice
+                                  ? calculatedSellingPrice
+                                  : 0.0}
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Grid container spacing={1}>
+                              <Grid item xs={6} align="left">
+                                Availability Status
+                              </Grid>
+                              <Grid item xs={6} align="center">
+                                {product.countInStock > 0 ? (
+                                  <span style={{ color: "green", fontWeight: 500 }}>
+                                    IN STOCK
+                                  </span>
+                                ) : (
+                                  <span style={{ color: "red", fontWeight: 500 }}>
+                                    OUT OF STOCK
+                                  </span>
+                                )}
+                                {/* {product.price} */}
+                              </Grid>
+                            </Grid>
+                          </Grid>
+
+                          <Grid item xs={12} align="center">
+                            <Button
+                              disabled={
+                                product.countInStock === 0 ||
+                                calculatedSellingPrice === 0
+                              }
+                              align="center"
+                              size="small"
+                              variant="contained"
+                              type="submit"
+                              color="primary"
+                              onClick={addToCartHandler}
+                            >
+                              Add To Cart
+                            </Button>
+                          </Grid>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
+                  </Paper>
                 </Grid>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>
-                <img
-                  alt="productImage"
-                  src={product.imageUrl}
-                  className={classes.image}
-                />
-              </Paper>
+                <Grid sm item className={classes.animation}>
+                  <Paper className={classes.paper}>
+                    <img
+                      alt="productImage"
+                      src={product.imageUrl}
+                      className={classes.image}
+                    />
+                  </Paper>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
+
+          {/* END OF MUI RESPONSIVE  */}
         </div>
       )}
     </>

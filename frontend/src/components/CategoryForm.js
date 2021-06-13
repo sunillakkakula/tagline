@@ -135,8 +135,9 @@ const CategoryForm = ({ location, history }) => {
               helperText={hasError('name') ? formState.errors.name[0] : null}
               error={hasError('name')}
               onChange={handleChange}
-              type="text"
               value={formState.values.name || ''}
+              type="text"
+              
             />
           </Grid>
           <Grid item xs={12}>

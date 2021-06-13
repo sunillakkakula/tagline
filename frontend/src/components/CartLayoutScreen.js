@@ -174,7 +174,7 @@ export default function CartLayoutScreen({ match, location, history }) {
   };
 
   const checkoutHandler = () => {
-    history.push("/login?redirect=shipping");
+    history.push("/signin?redirect=shipping");
   };
 
   return (

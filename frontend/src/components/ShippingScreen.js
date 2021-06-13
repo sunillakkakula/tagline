@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch} from "react-redux";
 import { saveShippingAddress } from "../actions/cartAction";
 import { Grid, Button, TextField } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
@@ -10,6 +9,8 @@ import Card from "./Card/Card";
 import CardHeader from "./Card/CardHeader";
 import CardBody from "./Card/CardBody";
 import StepperScreen from "./StepperScreen";
+import BackHomeNavigator from "./BackHomeNavigator";
+
 import validate from "validate.js";
 import { Section } from "./organisms";
 
@@ -167,7 +168,7 @@ const ShippingScreen = ({ history }) => {
 
   return (
     <>
-      <GridContainer>
+      {/* <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <Link
             className="btn"
@@ -187,6 +188,13 @@ const ShippingScreen = ({ history }) => {
           >
             Go to Groceries
           </Link>
+        </GridItem>
+      </GridContainer> */}
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <BackHomeNavigator history={history} />
+          </Card>
         </GridItem>
       </GridContainer>
       <GridContainer>

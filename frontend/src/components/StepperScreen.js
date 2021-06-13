@@ -10,6 +10,7 @@ import ContactMailOutlinedIcon from "@material-ui/icons/ContactMailOutlined";
 import AccountBalanceWalletOutlinedIcon from "@material-ui/icons/AccountBalanceWalletOutlined";
 import RateReviewOutlinedIcon from "@material-ui/icons/RateReviewOutlined";
 import StepConnector from "@material-ui/core/StepConnector";
+import BackHomeNavigator from "./BackHomeNavigator";
 
 const useQontoStepIconStyles = makeStyles({
   root: {
@@ -167,13 +168,12 @@ function getSteps() {
 
 export default function StepperScreen(props) {
   const classes = useStyles();
-  // const { currentStep } = props;
-  // console.log("Current Step uisng props.currentStep: " + props.currentStep);
   const activeStep = props.currentStep;
   const steps = getSteps();
 
   return (
     <div className={classes.root}>
+      {/* <BackHomeNavigator/> */}
       <Stepper
         alternativeLabel
         activeStep={activeStep}

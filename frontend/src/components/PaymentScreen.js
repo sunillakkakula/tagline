@@ -19,6 +19,7 @@ import Card from "./Card/Card";
 import CardHeader from "./Card/CardHeader";
 import CardBody from "./Card/CardBody";
 import StepperScreen from "./StepperScreen";
+import BackHomeNavigator from "./BackHomeNavigator";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,26 +92,11 @@ const PaymentScreen = ({ history }) => {
     <>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <Link
-            className="btn"
-            size="small"
-            variant="contained"
-            type="submit"
-            color="primary"
-            to="/"
-            style={{
-              color: "white",
-              backgroundColor: "#26A541",
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              align: "center",
-              width: "9rem",
-            }}
-          >
-            Go to Groceries
-          </Link>
+        <Card>
+          <BackHomeNavigator history={history}/>
+        </Card>
         </GridItem>
-      </GridContainer>
+        </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <StepperScreen currentStep={1} />

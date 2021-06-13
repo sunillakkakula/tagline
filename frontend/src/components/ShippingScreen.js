@@ -1,27 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingAddress } from "../actions/cartAction";
-import {
-  Grid,
-  Button,
-  Paper,
-  TextField,
-  TextareaAutosize,
-} from "@material-ui/core";
+import { Grid, Button, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
 import Card from "./Card/Card";
 import CardHeader from "./Card/CardHeader";
 import CardBody from "./Card/CardBody";
 import StepperScreen from "./StepperScreen";
+import validate from "validate.js";
+import { Section } from "./organisms";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3, 2),
     // height: 200,
+    width: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -83,22 +80,91 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const schema = {
+  address: {
+    presence: { allowEmpty: false, message: "is required" },
+    length: {
+      maximum: 300,
+    },
+  },
+  city: {
+    presence: { allowEmpty: false, message: "is required" },
+    length: {
+      maximum: 150,
+    },
+  },
+  postalCode: {
+    presence: { allowEmpty: false, message: "is required" },
+    length: {
+      minimum: 6,
+      maximum: 6,
+    },
+  },
+};
+
 const ShippingScreen = ({ history }) => {
   const classes = useStyles();
-  const cart = useSelector((state) => state.cart);
-  const { shippingAddress } = cart;
-
-  const [address, setAddress] = useState(shippingAddress.address);
-  const [city, setCity] = useState(shippingAddress.city);
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-
   const dispatch = useDispatch();
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode }));
-    history.push("/payment");
+  const [formState, setFormState] = React.useState({
+    isValid: false,
+    values: {},
+    touched: {},
+    errors: {},
+  });
+
+  React.useEffect(() => {
+    const errors = validate(formState.values, schema);
+
+    setFormState((formState) => ({
+      ...formState,
+      isValid: errors ? false : true,
+      errors: errors || {},
+    }));
+  }, [formState.values]);
+
+  const handleChange = (event) => {
+    event.persist();
+
+    setFormState((formState) => ({
+      ...formState,
+      values: {
+        ...formState.values,
+        [event.target.name]:
+          event.target.type === "checkbox"
+            ? event.target.checked
+            : event.target.value,
+      },
+      touched: {
+        ...formState.touched,
+        [event.target.name]: true,
+      },
+    }));
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Handle handleSubmit .!")
+    if (formState.isValid) {
+      console.log(formState.values);
+      dispatch(
+        saveShippingAddress(formState.values.address, formState.values.city,formState.values.postalCode)
+      );
+      history.push("/payment");
+    }
+
+    setFormState((formState) => ({
+      ...formState,
+      touched: {
+        ...formState.touched,
+        ...formState.errors,
+      },
+    }));
+  };
+
+  const hasError = (field) =>
+    formState.touched[field] && formState.errors[field] ? true : false;
+
   return (
     <>
       <GridContainer>
@@ -127,89 +193,78 @@ const ShippingScreen = ({ history }) => {
         <GridItem xs={12} sm={12} md={12}>
           <StepperScreen currentStep={0} />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12}>
+      </GridContainer>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Shipping Details</h4>
             </CardHeader>
             <CardBody>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Grid container justify="center" spacing={1}>
-                    <Grid item>
-                      <form onSubmit={submitHandler}>
-                        <Paper className={classes.paper}>
-                          <Grid item xs={12}>
-                            <TextField
-                              placeholder="Address"
-                              multiline
-                              onChange={(e) => setAddress(e.target.value)}
-                              fullWidth
-                              variant="outlined"
-                              inputProps={{ className: classes.textarea }}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              className={classes.inputText}
-                              placeholder="City"
-                              variant="outlined"
-                              size="small"
-                              name="city"
-                              fullWidth
-                              onChange={(e) => setCity(e.target.value)}
-                              type="text"
-                              value={city}
-                              InputProps={{
-                                classes: { input: classes.input },
-                              }}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              className={classes.inputText}
-                              placeholder="Postal Code"
-                              variant="outlined"
-                              size="small"
-                              name="postalcode"
-                              fullWidth
-                              onChange={(e) => setPostalCode(e.target.value)}
-                              type="text"
-                              value={postalCode}
-                              InputProps={{
-                                classes: { input: classes.input },
-                              }}
-                            />
-                          </Grid>
-
-                          <Grid item xs={12}>
-                            <Grid container justify="center" spacing={1}>
-                              <Grid item xs={12}>
-                                <Button
-                                  style={{
-                                    align: "center",
-                                  }}
-                                  fullWidth
-                                  size="small"
-                                  variant="contained"
-                                  type="submit"
-                                  color="primary"
-                                >
-                                  Proceed to Payment
-                                </Button>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Paper>
-                      </form>
-                    </Grid>
+            <Section className={classes.section}>
+              <div className={classes.formContainer} style={{marginBottom:"1rem"}}>
+                <form onSubmit={handleSubmit}>
+                  <Grid item xs={12} sm={12} md={12} align="center" style={{marginBottom:"1rem"}}>
+                    <TextField
+                      placeholder="Address"
+                      variant="outlined"
+                      size="medium"
+                      name="address"
+                      helperText={
+                        hasError("address") ? formState.errors.address[0] : null
+                      }
+                      error={hasError("address")}
+                      onChange={handleChange}
+                      value={formState.values.address || ""}
+                      type="text"
+                    />
                   </Grid>
-                </Grid>
-              </Grid>
+                  <Grid item xs={12} sm={12} md={12} align="center" style={{marginBottom:"1rem"}}>
+                  <TextField
+                      placeholder="City"
+                      variant="outlined"
+                      size="medium"
+                      name="city"
+                      helperText={
+                        hasError("city") ? formState.errors.city[0] : null
+                      }
+                      error={hasError("city")}
+                      onChange={handleChange}
+                      value={formState.values.city || ""}
+                      type="text"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} align="center" style={{marginBottom:"1rem"}}>
+                  <TextField
+                      placeholder="Postal Code"
+                      variant="outlined"
+                      size="medium"
+                      name="postalCode"
+                      helperText={
+                        hasError("postalCode") ? formState.errors.postalCode[0] : null
+                      }
+                      error={hasError("postalCode")}
+                      onChange={handleChange}
+                      value={formState.values.postalCode || ""}
+                      type="number"
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} align="center">
+                    <Button
+                      size="large"
+                      variant="contained"
+                      type="submit"
+                      color="primary"
+                      // fullWidth
+                    >
+                      Proceed to Payment
+                    </Button>
+                    
+                  </Grid>
+                </form>
+            </div>
+            </Section>
             </CardBody>
           </Card>
-        </GridItem>
-      </GridContainer>
     </>
   );
 };

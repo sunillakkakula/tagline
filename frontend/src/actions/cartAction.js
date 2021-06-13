@@ -75,13 +75,14 @@ export const editCartItems = (product) => (dispatch, getState) => {
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
 
-export const saveShippingAddress = (data) => (dispatch) => {
+export const saveShippingAddress = (address, city,postalCode) => (dispatch) => {
+  console.log("EXEC saveShippingAddress..!")
   dispatch({
     type: CART_SAVE_SHIPPING_ADDRESS,
-    payload: data,
+    payload: {address,city,postalCode},
   });
 
-  localStorage.setItem("shippingAddress", JSON.stringify(data));
+  localStorage.setItem("shippingAddress", JSON.stringify({address,city,postalCode}));
 };
 
 export const savePaymentMethod = (data) => (dispatch) => {

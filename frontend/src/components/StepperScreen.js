@@ -168,7 +168,7 @@ function getSteps() {
 export default function StepperScreen(props) {
   const classes = useStyles();
   // const { currentStep } = props;
-  console.log("Current Step uisng props.currentStep: " + props.currentStep);
+  // console.log("Current Step uisng props.currentStep: " + props.currentStep);
   const activeStep = props.currentStep;
   const steps = getSteps();
 

@@ -45,7 +45,7 @@ import DomesticItemCreate from "./components/DomesticItemCreate";
 
 function App() {
   return (
-    <ThemeProvider theme={theme} style={{color: "red"}}>
+    <ThemeProvider theme={theme} >
       <Router>
         {/* NEED TO APPLY MARGIN  TO APP BAR REFER MUI C...
             AND COMMENT THE BELOW LIKE AFTER MAKING CHANGES  -KSP

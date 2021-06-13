@@ -28,13 +28,43 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     justifyContent: "center",
   },
+  mainContainer: {
+    marginTop: "5em",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "3em"
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "2em"
+    }
+  },
+  heroTextContainer: {
+    minWidth: "21em",
+    maxWidth: "50em",
+    marginLeft: "1em",
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 0,
+      maxWidth: "30em",
+      marginTop: "2em",
+
+    }
+  },
+  animation: {
+    maxWidth: "50em",
+    minWidth: "21em",
+    // marginTop: "2em",
+    marginLeft: "10%",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "30em",
+      marginTop: "2em",
+    }
+  },
   imageIcon: {
-    height: "80%",
+    height: "1rem",
   },
   paper: {
     height: "100%",
-    width: "150vh",
-    padding: ".5rem",
+    width: "65vh",
+    
   },
   control: {
     padding: theme.spacing(2),
@@ -123,14 +153,17 @@ const PlaceOrderScreen = ({ history }) => {
     <>
      {order && <CustomBackdropSpinner />}
      <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
+        <GridItem xs={12} sm={12} md={12} style={{marginTop:"1rem"}}>
           <Card>
             <BackHomeNavigator history={history} />
           </Card>
         </GridItem>
+        <GridItem xs={12} sm={12} md={12} style={{marginTop:"1rem"}}>
+          <StepperScreen currentStep={2} />
+        </GridItem>
       </GridContainer>
-      <Grid container className={classes.root} spacing={2}>
-        <Grid item xs={8}>
+      <Grid container >
+        <Grid item style={{marginTop:"1rem"}}>
           <Paper className={classes.paper}>
             <form onSubmit={placeOrderHandler}>
               
@@ -140,9 +173,7 @@ const PlaceOrderScreen = ({ history }) => {
                     <Message>Your cart is empty</Message>
                   ) : (
                     <Grid conatiner>
-                      <GridItem xs={12} sm={12} md={12}>
-                        <StepperScreen currentStep="3" />
-                      </GridItem>
+                   
                       <Grid container>
                         <Grid item xs={12}>
                           <Typography variant="h6">Shipping Details</Typography>
@@ -202,15 +233,16 @@ const PlaceOrderScreen = ({ history }) => {
                       {cart.cartItems.map((item, index) => (
                         <Grid item key={index} style={{ margin: ".5rem" }}>
                           <Grid container>
-                            <Grid item xs={3}>
+                            <Grid item xs={2}>
                               <img
                                 className="img-thumbnail"
                                 src={item.imageUrl}
                                 alt={item.name}
+                                alignContent="center"
                                 style={{
                                   height: "3.5rem",
                                   width: "3.5rem",
-                                  marginRight: "5rem",
+                                  
                                 }}
                               />
                             </Grid>
@@ -218,11 +250,10 @@ const PlaceOrderScreen = ({ history }) => {
                               <Grid container>
                                 <Grid
                                   item
-                                  xs={3}
                                   style={{
                                     justify: "center",
                                     alignContent: "center",
-                                    marginRight: "5rem",
+                                    // marginRight: "5rem",
                                     marginTop: "1rem",
                                   }}
                                 >
@@ -232,10 +263,9 @@ const PlaceOrderScreen = ({ history }) => {
                                     </Typography>
                                   </Link>
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item >
                                   <Typography variant="body1">
                                     {item.quantityOrdered} X{" "}
-                                    {/* </Typography> */}
                                     <Icon classes={{ root: classes.iconRoot }}>
                                       <img
                                         alt="curency inr"
@@ -243,11 +273,8 @@ const PlaceOrderScreen = ({ history }) => {
                                         className={classes.imageIcon}
                                       />
                                     </Icon>
-                                    {item.unitPrice}
+                                    {item.unitPrice} = 
                                   </Typography>
-                                </Grid>
-                                <Grid item xs={1}>
-                                  <Typography variant="body1">=</Typography>
                                 </Grid>
                                 <Grid item xs={3}>
                                   <Typography variant="body1">
@@ -295,7 +322,7 @@ const PlaceOrderScreen = ({ history }) => {
             </form>
           </Paper>
         </Grid>
-        <Grid item xs={4} container>
+        {/* <Grid item xs={4} >
           <Paper className={classes.paper}>
             <Typography variant="h6">Order Summary</Typography>
             <Divider />
@@ -397,7 +424,8 @@ const PlaceOrderScreen = ({ history }) => {
             </Grid>
           </Paper>
         </Grid>
-      </Grid>
+      */}
+       </Grid>
     </>
   );
 };

@@ -7,17 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import ZipCodeTracker from "./ZipCodeTracker";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import $ from "jquery";
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
-// import logo from "./assets/images/logo.jpg"
 import logo from "../assets/images/logo.jpg"
-import ShoppingCartCountScreen from './ShoppingCartCountScreen';
 import { ShoppingBasketRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -156,8 +149,8 @@ export default function CustomHeader() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+        <IconButton aria-label="" color="inherit">
+              <Badge color="secondary">
                 <ShoppingBasketRounded />
               </Badge>
             </IconButton>
@@ -223,7 +216,7 @@ export default function CustomHeader() {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge  color="secondary">
                 <ShoppingBasketRounded />
               </Badge>
             </IconButton>

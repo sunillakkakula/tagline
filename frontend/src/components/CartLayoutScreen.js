@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
+import React, { useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
-  fetchUpdatedCartItemsCount,
   removeFromCart,
   editCartItems,
 } from "../actions/cartAction";
 import rupeeSvgIcon from "../assets/images/currency-inr.svg";
-// import imagePath from "../assets/images/products/edible-oils/Edible-Oils-2.jpg";
 import {
   useMediaQuery,
   Grid,
@@ -22,26 +16,15 @@ import {
   IconButton,
   Icon,
   Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  FormControl,
-  Select,
-  MenuItem,
-  DialogActions,
-  ButtonGroup,
+
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { DeleteOutline } from "@material-ui/icons";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import GridContainer from "../components/Grid/GridContainer";
 import GridItem from "../components/Grid/GridItem";
 import Card from "./Card/Card";
 import CardHeader from "./Card/CardHeader";
 import CardBody from "./Card/CardBody";
-import ProductScreen from "./ProductScreen";
-import { Form } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -143,7 +126,6 @@ export default function CartLayoutScreen({ match, location, history }) {
         break;
     }
   });
-  // const [qtyCounter, setQtyCounter] = useState(() => qty);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -154,21 +136,12 @@ export default function CartLayoutScreen({ match, location, history }) {
   const handleClose = () => {
     setOpen(false);
   };
-  // const handleIncrement = () => {
-  //   setQtyCounter((prevCnt) => prevCnt + 1);
-  // };
-
-  // const handleDecrement = () => {
-  //   setQtyCounter((prevCnt) => prevCnt - 1);
-  // };
-
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty, uom, order, price));
-      // dispatch(fetchUpdatedCartItemsCount());
     }
   }, [dispatch, productId, qty, uom, order, price]);
 
@@ -184,29 +157,6 @@ export default function CartLayoutScreen({ match, location, history }) {
   const checkoutHandler = () => {
     history.push("/login?redirect=shipping");
   };
-
-  // const renderDialog = (
-  //   <Dialog
-  //     fullWidth
-  //     maxWidth="md"
-  //     open={open}
-  //     onClose={handleClose}
-  //     aria-labelledby="max-width-dialog-title"
-  //   >
-  //     <DialogTitle id="max-width-dialog-title">Edit Cart Item</DialogTitle>
-  //     <DialogContent>
-  //       <DialogContentText>
-  //         You can set my maximum width and whether to adapt or not.
-  //       </DialogContentText>
-  //       {/* <ProductScreen /> */}
-  //     </DialogContent>
-  //     <DialogActions>
-  //       <Button onClick={handleClose} color="primary">
-  //         Close
-  //       </Button>
-  //     </DialogActions>
-  //   </Dialog>
-  // );
 
   return (
     <div>
@@ -301,45 +251,8 @@ export default function CartLayoutScreen({ match, location, history }) {
                               </Grid>
                             </Grid>
                             <Grid item xs={1}>
-                              {/* <Form.Control
-                                as="select"
-                                value={item.quantityOrdered}
-                                onChange={(e) => {
-                                  dispatch(removeFromCart(item.product, index));
-                                  dispatch(
-                                    addToCart(
-                                      item.product,
-                                      Number(e.target.value),
-                                      item.uom,
-                                      item.order
-                                    )
-                                  );
-                                }}
-                              >
-                                {[...Array(item.countInStock).keys()].map(
-                                  (x) => (
-                                    <option key={x + 1} value={x + 1}>
-                                      {x + 1}
-                                    </option>
-                                  )
-                                )}
-                              </Form.Control> */}
+                             
                             </Grid>
-                            {/* <Grid item xs={1}>
-                              <ButtonGroup
-                                size="small"
-                                aria-label="small outlined button group"
-                              >
-                                <Button onClick={handleIncrement}>+</Button>
-                                {qtyCounter && (
-                                  <Button disabled>{qtyCounter}</Button>
-                                )}
-                                {qtyCounter && (
-                                  <Button onClick={handleDecrement}>-</Button>
-                                )}
-                              </ButtonGroup>
-                            </Grid> */}
-
                             <Grid item xs={1}>
                               <IconButton
                                 aria-label="delete"
@@ -410,7 +323,6 @@ export default function CartLayoutScreen({ match, location, history }) {
           </Card>
         </GridItem>
       </GridContainer>
-      {/* {renderDialog} */}
     </div>
   );
 }
